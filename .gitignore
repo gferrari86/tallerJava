@@ -5,8 +5,8 @@ IMM/ejbs/target/
 IMM/primary-source/target/
 IMM/projects/logging/target/
 IMM/servlets/servlet/target/
-SCAC/ear/target/
-SCAC/ejbs/target/
-SCAC/primary-source/target/
-SCAC/projects/logging/target/
-SCAC/servlets/servlet/target/
+SCAC/ear2/target/
+SCAC/ejbs2/target/
+SCAC/primary-source2/target/
+SCAC/projects2/logging2/target/
+SCAC/servlets2/servlet2/target/
