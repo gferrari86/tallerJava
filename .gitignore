@@ -1,0 +1,12 @@
+*.iml
+.idea/
+IMM/ear/target/
+IMM/ejbs/target/
+IMM/primary-source/target/
+IMM/projects/logging/target/
+IMM/servlets/servlet/target/
+SCAC/ear/target/
+SCAC/ejbs/target/
+SCAC/primary-source/target/
+SCAC/projects/logging/target/
+SCAC/servlets/servlet/target/
