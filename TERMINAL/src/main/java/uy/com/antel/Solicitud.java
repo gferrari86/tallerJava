@@ -51,5 +51,7 @@ public class Solicitud {
         this.numeroTicketAnulacion = numeroTicketAnulacion;
     }
 
-
+    public String getIdTerminalAgencia() {
+        return idTerminalAgencia;
+    }
 }

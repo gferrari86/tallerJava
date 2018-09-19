@@ -19,6 +19,8 @@ public class App
 
         BufferedReader entrada = new BufferedReader(new InputStreamReader(System.in));
 
+        IAdminSolicitud adminSolicitud = IAdminSolicitudImp.getInstancia();
+
         String comando = null;
 
         do{
@@ -51,6 +53,7 @@ public class App
                             Date fechaInicioEstacionamiento = sdf.parse(tokens[2]);
                             nuevaSolicitud.setFechaInicioEstacionamiento(fechaInicioEstacionamiento);
                             nuevaSolicitud.setCantidadMinutos(Integer.parseInt(tokens[3]));
+                            adminSolicitud.enviarSolicitud(nuevaSolicitud);
 
                         } catch (ParseException e) {
                             System.out.println("Fecha Invalida");
@@ -63,6 +66,7 @@ public class App
                         Solicitud nuevaSolicitud = new Solicitud();
                         nuevaSolicitud.setTipoSolicitud(TipoSolicitud.ANULACION);
                         nuevaSolicitud.setNumeroTicketAnulacion(tokens[1]);
+                        adminSolicitud.enviarSolicitud(nuevaSolicitud);
                         break;
                     }
                     case "q":
