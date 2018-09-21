@@ -21,6 +21,12 @@ public class App
 
         IAdminSolicitud adminSolicitud = IAdminSolicitudImp.getInstancia();
 
+        adminSolicitud.abrirConexion();
+
+        Solicitud s = new Solicitud();
+        s.setMatriculaVehiculo("MATRICULA");
+        adminSolicitud.enviarObjeto(s);
+
         String comando = null;
 
         do{
