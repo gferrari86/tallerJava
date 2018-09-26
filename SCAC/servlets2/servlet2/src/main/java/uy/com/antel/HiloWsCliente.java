@@ -16,6 +16,10 @@ public class HiloWsCliente implements Runnable {
             Service service = Service.create(url, qname);
             ImmWsImp converter = service.getPort(ImmWsImp.class);
             System.out.println(converter.sayHello("Nombre"));
+            SolicitudIMM sIMM = new SolicitudIMM();
+            sIMM.setMatriculaVehiculo("ABC11111");
+            converter.getSolicitud(sIMM);
+
 
         } catch (MalformedURLException e) {
             e.printStackTrace();

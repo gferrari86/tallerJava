@@ -15,7 +15,7 @@ public class HiloRecibeDatosTerminal implements Runnable {
             Socket socketRecepcion = socket.accept();
 
             ObjectInputStream objectSerial = new ObjectInputStream(socketRecepcion.getInputStream());
-            Solicitud s = (Solicitud)objectSerial.readObject();
+            SolicitudTerminal s = (SolicitudTerminal) objectSerial.readObject();
             System.out.println(s.getMatriculaVehiculo());
 
 

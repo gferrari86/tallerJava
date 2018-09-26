@@ -12,4 +12,11 @@ public class ImmWsImp {
         return "Hello " + name;
     }
 
+    public void getSolicitud(SolicitudIMM sIMM){
+
+        System.out.println(sIMM.toString());
+    }
+
+
+
 }

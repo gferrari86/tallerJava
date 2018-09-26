@@ -37,4 +37,15 @@ public interface ImmWsImp {
         @WebParam(name = "arg0", targetNamespace = "")
         String arg0);
 
+    /**
+     * 
+     * @param arg0
+     */
+    @WebMethod
+    @RequestWrapper(localName = "getSolicitud", targetNamespace = "http://antel.com.uy/", className = "uy.com.antel.GetSolicitud")
+    @ResponseWrapper(localName = "getSolicitudResponse", targetNamespace = "http://antel.com.uy/", className = "uy.com.antel.GetSolicitudResponse")
+    public void getSolicitud(
+        @WebParam(name = "arg0", targetNamespace = "")
+        SolicitudIMM arg0);
+
 }
