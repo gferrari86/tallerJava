@@ -34,15 +34,12 @@ public class IAdminSolicitudImp implements IAdminSolicitud{
 
     }
 
+    /*
+
     @Override
     public void enviarSolicitud(Solicitud solicitud) {
 
-        System.out.println(solicitud.getTipoSolicitud());
-        System.out.println(solicitud.getMatriculaVehiculo());
-        System.out.println(solicitud.getFechaInicioEstacionamiento());
-        System.out.println(solicitud.getCantidadMinutos());
-        System.out.println(solicitud.getNumeroTicketAnulacion());
-        System.out.println(solicitud.getIdTerminalAgencia());
+        System.out.println(solicitud.toString());
 
     }
 
@@ -62,10 +59,13 @@ public class IAdminSolicitudImp implements IAdminSolicitud{
 
     }
 
+    */
+
     @Override
-    public void enviarObjeto(Solicitud s) {
+    public void enviarSolicitud(Solicitud s) {
 
         System.out.println("Envia Solicitud Cliente");
+        System.out.println(s.toString());
 
         try {
             ObjectOutputStream objetoSerial = new ObjectOutputStream(socket.getOutputStream());

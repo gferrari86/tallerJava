@@ -16,6 +16,10 @@ public class HiloRecibeDatosTerminal implements Runnable {
 
             ObjectInputStream objectSerial = new ObjectInputStream(socketRecepcion.getInputStream());
             SolicitudTerminal s = (SolicitudTerminal) objectSerial.readObject();
+
+            ControladorSCAC controladorSCAC = ControladorSCAC.getInstancia();
+            controladorSCAC.procesarSolicitudTerminal(s);
+
             System.out.println(s.getMatriculaVehiculo());
 
 

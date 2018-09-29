@@ -1,7 +1,7 @@
 package uy.com.antel;
 
 public enum EstadoTicket {
-    ACTIVO,
+    VENDIDO,
     ANULADO,
     ERROR
 }

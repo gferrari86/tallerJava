@@ -6,32 +6,34 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Clase Java para tipoSolicitud.
+ * <p>Clase Java para estadoTicket.
  * 
  * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * <p>
  * <pre>
- * &lt;simpleType name="tipoSolicitud">
+ * &lt;simpleType name="estadoTicket">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *     &lt;enumeration value="VENTA"/>
- *     &lt;enumeration value="ANULACION"/>
+ *     &lt;enumeration value="VENDIDO"/>
+ *     &lt;enumeration value="ANULADO"/>
+ *     &lt;enumeration value="ERROR"/>
  *   &lt;/restriction>
  * &lt;/simpleType>
  * </pre>
  * 
  */
-@XmlType(name = "tipoSolicitud")
+@XmlType(name = "estadoTicket")
 @XmlEnum
-public enum TipoSolicitud {
+public enum EstadoTicket {
 
-    VENTA,
-    ANULACION;
+    VENDIDO,
+    ANULADO,
+    ERROR;
 
     public String value() {
         return name();
     }
 
-    public static TipoSolicitud fromValue(String v) {
+    public static EstadoTicket fromValue(String v) {
         return valueOf(v);
     }
 

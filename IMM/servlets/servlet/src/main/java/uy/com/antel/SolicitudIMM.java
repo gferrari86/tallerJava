@@ -9,11 +9,12 @@ public class SolicitudIMM {
     private Date fechaInicioEstacionamiento;
     private Date fechaHoraVenta;
     private int cantidadMinutos;
-    private String numeroTicketAnulacion;
+    private String codigoAnulacion;
+    private Date fechaHoraAnulacion;
     private final String Agencia = "Agencia 1";
     private float importeTotal = 0;
     private String numeroTicket;
-    private EstadoTicket estadoTicket = EstadoTicket.ACTIVO;
+    private EstadoTicket estadoTicket = EstadoTicket.VENDIDO;
 
     public TipoSolicitud getTipoSolicitud() {
         return tipoSolicitud;
@@ -39,26 +40,6 @@ public class SolicitudIMM {
         this.fechaInicioEstacionamiento = fechaInicioEstacionamiento;
     }
 
-    public int getCantidadMinutos() {
-        return cantidadMinutos;
-    }
-
-    public void setCantidadMinutos(int cantidadMinutos) {
-        this.cantidadMinutos = cantidadMinutos;
-    }
-
-    public String getNumeroTicketAnulacion() {
-        return numeroTicketAnulacion;
-    }
-
-    public void setNumeroTicketAnulacion(String numeroTicketAnulacion) {
-        this.numeroTicketAnulacion = numeroTicketAnulacion;
-    }
-
-    public String getAgencia() {
-        return Agencia;
-    }
-
     public Date getFechaHoraVenta() {
         return fechaHoraVenta;
     }
@@ -67,12 +48,48 @@ public class SolicitudIMM {
         this.fechaHoraVenta = fechaHoraVenta;
     }
 
+    public int getCantidadMinutos() {
+        return cantidadMinutos;
+    }
+
+    public void setCantidadMinutos(int cantidadMinutos) {
+        this.cantidadMinutos = cantidadMinutos;
+    }
+
+    public String getCodigoAnulacion() {
+        return codigoAnulacion;
+    }
+
+    public void setCodigoAnulacion(String codigoAnulacion) {
+        this.codigoAnulacion = codigoAnulacion;
+    }
+
+    public Date getFechaHoraAnulacion() {
+        return fechaHoraAnulacion;
+    }
+
+    public void setFechaHoraAnulacion(Date fechaHoraAnulacion) {
+        this.fechaHoraAnulacion = fechaHoraAnulacion;
+    }
+
+    public String getAgencia() {
+        return Agencia;
+    }
+
     public float getImporteTotal() {
         return importeTotal;
     }
 
     public void setImporteTotal(float importeTotal) {
         this.importeTotal = importeTotal;
+    }
+
+    public String getNumeroTicket() {
+        return numeroTicket;
+    }
+
+    public void setNumeroTicket(String numeroTicket) {
+        this.numeroTicket = numeroTicket;
     }
 
     public EstadoTicket getEstadoTicket() {
@@ -89,9 +106,14 @@ public class SolicitudIMM {
                 "tipoSolicitud=" + tipoSolicitud +
                 ", matriculaVehiculo='" + matriculaVehiculo + '\'' +
                 ", fechaInicioEstacionamiento=" + fechaInicioEstacionamiento +
+                ", fechaHoraVenta=" + fechaHoraVenta +
                 ", cantidadMinutos=" + cantidadMinutos +
-                ", numeroTicketAnulacion='" + numeroTicketAnulacion + '\'' +
+                ", codigoAnulacion='" + codigoAnulacion + '\'' +
+                ", fechaHoraAnulacion=" + fechaHoraAnulacion +
                 ", Agencia='" + Agencia + '\'' +
+                ", importeTotal=" + importeTotal +
+                ", numeroTicket='" + numeroTicket + '\'' +
+                ", estadoTicket=" + estadoTicket +
                 '}';
     }
 }

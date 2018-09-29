@@ -19,9 +19,14 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="cantidadMinutos" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="codigoAnulacion" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="estadoTicket" type="{http://antel.com.uy/}estadoTicket" minOccurs="0"/>
+ *         &lt;element name="fechaHoraAnulacion" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
+ *         &lt;element name="fechaHoraVenta" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
  *         &lt;element name="fechaInicioEstacionamiento" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
+ *         &lt;element name="importeTotal" type="{http://www.w3.org/2001/XMLSchema}float"/>
  *         &lt;element name="matriculaVehiculo" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="numeroTicketAnulacion" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="numeroTicket" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="tipoSolicitud" type="{http://antel.com.uy/}tipoSolicitud" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -34,18 +39,31 @@ import javax.xml.datatype.XMLGregorianCalendar;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "solicitudIMM", propOrder = {
     "cantidadMinutos",
+    "codigoAnulacion",
+    "estadoTicket",
+    "fechaHoraAnulacion",
+    "fechaHoraVenta",
     "fechaInicioEstacionamiento",
+    "importeTotal",
     "matriculaVehiculo",
-    "numeroTicketAnulacion",
+    "numeroTicket",
     "tipoSolicitud"
 })
 public class SolicitudIMM {
 
     protected int cantidadMinutos;
+    protected String codigoAnulacion;
+    @XmlSchemaType(name = "string")
+    protected EstadoTicket estadoTicket;
+    @XmlSchemaType(name = "dateTime")
+    protected XMLGregorianCalendar fechaHoraAnulacion;
+    @XmlSchemaType(name = "dateTime")
+    protected XMLGregorianCalendar fechaHoraVenta;
     @XmlSchemaType(name = "dateTime")
     protected XMLGregorianCalendar fechaInicioEstacionamiento;
+    protected float importeTotal;
     protected String matriculaVehiculo;
-    protected String numeroTicketAnulacion;
+    protected String numeroTicket;
     @XmlSchemaType(name = "string")
     protected TipoSolicitud tipoSolicitud;
 
@@ -63,6 +81,102 @@ public class SolicitudIMM {
      */
     public void setCantidadMinutos(int value) {
         this.cantidadMinutos = value;
+    }
+
+    /**
+     * Obtiene el valor de la propiedad codigoAnulacion.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getCodigoAnulacion() {
+        return codigoAnulacion;
+    }
+
+    /**
+     * Define el valor de la propiedad codigoAnulacion.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setCodigoAnulacion(String value) {
+        this.codigoAnulacion = value;
+    }
+
+    /**
+     * Obtiene el valor de la propiedad estadoTicket.
+     * 
+     * @return
+     *     possible object is
+     *     {@link EstadoTicket }
+     *     
+     */
+    public EstadoTicket getEstadoTicket() {
+        return estadoTicket;
+    }
+
+    /**
+     * Define el valor de la propiedad estadoTicket.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link EstadoTicket }
+     *     
+     */
+    public void setEstadoTicket(EstadoTicket value) {
+        this.estadoTicket = value;
+    }
+
+    /**
+     * Obtiene el valor de la propiedad fechaHoraAnulacion.
+     * 
+     * @return
+     *     possible object is
+     *     {@link XMLGregorianCalendar }
+     *     
+     */
+    public XMLGregorianCalendar getFechaHoraAnulacion() {
+        return fechaHoraAnulacion;
+    }
+
+    /**
+     * Define el valor de la propiedad fechaHoraAnulacion.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link XMLGregorianCalendar }
+     *     
+     */
+    public void setFechaHoraAnulacion(XMLGregorianCalendar value) {
+        this.fechaHoraAnulacion = value;
+    }
+
+    /**
+     * Obtiene el valor de la propiedad fechaHoraVenta.
+     * 
+     * @return
+     *     possible object is
+     *     {@link XMLGregorianCalendar }
+     *     
+     */
+    public XMLGregorianCalendar getFechaHoraVenta() {
+        return fechaHoraVenta;
+    }
+
+    /**
+     * Define el valor de la propiedad fechaHoraVenta.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link XMLGregorianCalendar }
+     *     
+     */
+    public void setFechaHoraVenta(XMLGregorianCalendar value) {
+        this.fechaHoraVenta = value;
     }
 
     /**
@@ -90,6 +204,22 @@ public class SolicitudIMM {
     }
 
     /**
+     * Obtiene el valor de la propiedad importeTotal.
+     * 
+     */
+    public float getImporteTotal() {
+        return importeTotal;
+    }
+
+    /**
+     * Define el valor de la propiedad importeTotal.
+     * 
+     */
+    public void setImporteTotal(float value) {
+        this.importeTotal = value;
+    }
+
+    /**
      * Obtiene el valor de la propiedad matriculaVehiculo.
      * 
      * @return
@@ -114,27 +244,27 @@ public class SolicitudIMM {
     }
 
     /**
-     * Obtiene el valor de la propiedad numeroTicketAnulacion.
+     * Obtiene el valor de la propiedad numeroTicket.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getNumeroTicketAnulacion() {
-        return numeroTicketAnulacion;
+    public String getNumeroTicket() {
+        return numeroTicket;
     }
 
     /**
-     * Define el valor de la propiedad numeroTicketAnulacion.
+     * Define el valor de la propiedad numeroTicket.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setNumeroTicketAnulacion(String value) {
-        this.numeroTicketAnulacion = value;
+    public void setNumeroTicket(String value) {
+        this.numeroTicket = value;
     }
 
     /**

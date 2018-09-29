@@ -23,9 +23,6 @@ public class App
 
         adminSolicitud.abrirConexion();
 
-        Solicitud s = new Solicitud();
-        s.setMatriculaVehiculo("MATRICULA");
-        adminSolicitud.enviarObjeto(s);
 
         String comando = null;
 
@@ -40,13 +37,13 @@ public class App
                     case "h":
                     case "H":{
                         System.out.println("H\n" +
-                                "◦ despliega una ayuda para el usuario\n" +
+                                "- despliega una ayuda para el usuario\n" +
                                 "V <matriculaVehiculo> <fechaInicioEstacionamiento> <cantidadMinutos>\n" +
-                                "◦ Genera una solicitud de venta. Formato fechaInicioEstacionamiento=dd/MM/yyyy:HH:mm \n" +
+                                "- Genera una solicitud de venta. Formato fechaInicioEstacionamiento=dd/MM/yyyy:HH:mm \n" +
                                 "A <numeroTicket>\n" +
-                                "◦ Genera una solicitud para anular el Ticket\n" +
+                                "- Genera una solicitud para anular el Ticket\n" +
                                 "Q\n" +
-                                "◦ Termina la ejecución del programa");
+                                "- Termina la ejecución del programa");
                         break;
                     }
                     case "v":
@@ -71,7 +68,7 @@ public class App
                     case "A":{
                         Solicitud nuevaSolicitud = new Solicitud();
                         nuevaSolicitud.setTipoSolicitud(TipoSolicitud.ANULACION);
-                        nuevaSolicitud.setNumeroTicketAnulacion(tokens[1]);
+                        nuevaSolicitud.setNumeroTicket(tokens[1]);
                         adminSolicitud.enviarSolicitud(nuevaSolicitud);
                         break;
                     }

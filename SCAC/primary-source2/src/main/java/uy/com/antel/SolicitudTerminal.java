@@ -3,14 +3,20 @@ package uy.com.antel;
 import java.io.Serializable;
 import java.util.Date;
 
+
 public class SolicitudTerminal implements Serializable{
 
     private TipoSolicitud tipoSolicitud;
     private String matriculaVehiculo;
     private Date fechaInicioEstacionamiento;
+    private Date fechaVenta;
     private int cantidadMinutos;
-    private String numeroTicketAnulacion;
+    private float importeTotal;
+    private String numeroTicket;
+    private String codigoAnulacion;
+    private Date fechaAnulacion;
     private final String idTerminalAgencia = "Sucursal 1 - Agencia 1";
+
 
     public TipoSolicitud getTipoSolicitud() {
         return tipoSolicitud;
@@ -36,6 +42,14 @@ public class SolicitudTerminal implements Serializable{
         this.fechaInicioEstacionamiento = fechaInicioEstacionamiento;
     }
 
+    public Date getFechaVenta() {
+        return fechaVenta;
+    }
+
+    public void setFechaVenta(Date fechaVenta) {
+        this.fechaVenta = fechaVenta;
+    }
+
     public int getCantidadMinutos() {
         return cantidadMinutos;
     }
@@ -44,12 +58,36 @@ public class SolicitudTerminal implements Serializable{
         this.cantidadMinutos = cantidadMinutos;
     }
 
-    public String getNumeroTicketAnulacion() {
-        return numeroTicketAnulacion;
+    public float getImporteTotal() {
+        return importeTotal;
     }
 
-    public void setNumeroTicketAnulacion(String numeroTicketAnulacion) {
-        this.numeroTicketAnulacion = numeroTicketAnulacion;
+    public void setImporteTotal(float importeTotal) {
+        this.importeTotal = importeTotal;
+    }
+
+    public String getNumeroTicket() {
+        return numeroTicket;
+    }
+
+    public void setNumeroTicket(String numeroTicket) {
+        this.numeroTicket = numeroTicket;
+    }
+
+    public String getCodigoAnulacion() {
+        return codigoAnulacion;
+    }
+
+    public void setCodigoAnulacion(String codigoAnulacion) {
+        this.codigoAnulacion = codigoAnulacion;
+    }
+
+    public Date getFechaAnulacion() {
+        return fechaAnulacion;
+    }
+
+    public void setFechaAnulacion(Date fechaAnulacion) {
+        this.fechaAnulacion = fechaAnulacion;
     }
 
     public String getIdTerminalAgencia() {
