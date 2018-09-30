@@ -3,7 +3,7 @@ package uy.com.antel;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Solicitud implements Serializable{
+public class SolicitudTerminal implements Serializable{
 
     private TipoSolicitud tipoSolicitud;
     private String matriculaVehiculo;
@@ -95,7 +95,7 @@ public class Solicitud implements Serializable{
 
     @Override
     public String toString() {
-        return "Solicitud{" +
+        return "SolicitudTerminal{" +
                 "tipoSolicitud=" + tipoSolicitud +
                 ", matriculaVehiculo='" + matriculaVehiculo + '\'' +
                 ", fechaInicioEstacionamiento=" + fechaInicioEstacionamiento +

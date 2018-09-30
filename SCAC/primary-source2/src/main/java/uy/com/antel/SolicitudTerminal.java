@@ -3,7 +3,6 @@ package uy.com.antel;
 import java.io.Serializable;
 import java.util.Date;
 
-
 public class SolicitudTerminal implements Serializable{
 
     private TipoSolicitud tipoSolicitud;
@@ -92,5 +91,21 @@ public class SolicitudTerminal implements Serializable{
 
     public String getIdTerminalAgencia() {
         return idTerminalAgencia;
+    }
+
+    @Override
+    public String toString() {
+        return "Solicitud{" +
+                "tipoSolicitud=" + tipoSolicitud +
+                ", matriculaVehiculo='" + matriculaVehiculo + '\'' +
+                ", fechaInicioEstacionamiento=" + fechaInicioEstacionamiento +
+                ", fechaVenta=" + fechaVenta +
+                ", cantidadMinutos=" + cantidadMinutos +
+                ", importeTotal=" + importeTotal +
+                ", numeroTicket='" + numeroTicket + '\'' +
+                ", codigoAnulacion='" + codigoAnulacion + '\'' +
+                ", fechaAnulacion=" + fechaAnulacion +
+                ", idTerminalAgencia='" + idTerminalAgencia + '\'' +
+                '}';
     }
 }

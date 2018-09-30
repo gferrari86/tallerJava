@@ -14,8 +14,8 @@ public class ServletRecibeDatosTerminal extends HttpServlet {
         Thread t = new Thread(new HiloRecibeDatosTerminal());
         t.start();
 
-        Thread t2 = new Thread(new HiloWsCliente());
-        t2.start();
+        //Thread t2 = new Thread(new HiloWsCliente());
+        //t2.start();
 
         super.init();
     }

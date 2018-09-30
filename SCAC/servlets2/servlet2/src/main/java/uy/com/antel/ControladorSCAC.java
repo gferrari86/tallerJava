@@ -4,6 +4,10 @@ package uy.com.antel;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+import javax.xml.namespace.QName;
+import javax.xml.ws.Service;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.GregorianCalendar;
 
 public class ControladorSCAC {
@@ -53,11 +57,15 @@ public class ControladorSCAC {
             tscac.setCantidadMinutos(sT.getCantidadMinutos());
             tscac.setIdTerminalAgencia(sT.getIdTerminalAgencia());
 
-            // Generar Hora actual
-            // Guardar Agencia
+            GregorianCalendar fechaActual = (GregorianCalendar) GregorianCalendar.getInstance();
+            XMLGregorianCalendar fechaActual2 = DatatypeFactory.newInstance().newXMLGregorianCalendar(fechaActual);
+            tscac.setFechaHoraVenta(fechaActual2);
 
-            // Enviar por WS Solicitud IMM (polimorfismo)
+            System.out.println("SCAC Recibido TICKET de Terminal");
+            System.out.println(tscac.toString());
 
+            //Polimorfismo TicketSCAC hereda de Solicitud IMM
+            enviarSolicitudImmWS(tscac);
 
 
         } catch (DatatypeConfigurationException e) {
@@ -71,6 +79,38 @@ public class ControladorSCAC {
     private void procesarSolicitudAnulacion(SolicitudTerminal sT){
 
         System.out.println("Procesar Solicitud Anulacion");
+
+
+    }
+
+    private void enviarSolicitudImmWS (SolicitudIMM sImm){
+
+
+        try {
+            URL url = new URL("http://localhost:8080/servlet/sv?wsdl");
+            QName qname = new QName("http://antel.com.uy/", "ImmWsImpService");
+
+            Service service = Service.create(url, qname);
+            ImmWsImp converter = service.getPort(ImmWsImp.class);
+
+            SolicitudIMM sImmCompleta = new SolicitudIMM();
+
+            //converter.getSolicitud(sImm);
+
+
+            sImmCompleta = converter.getSolicitud(sImm);
+
+            System.out.println("SCAC Recibido TICKET de IMM");
+
+            System.out.println(sImmCompleta.getNumeroTicket());
+
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+
+
 
 
     }

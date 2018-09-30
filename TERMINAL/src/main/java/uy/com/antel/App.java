@@ -49,7 +49,7 @@ public class App
                     case "v":
                     case "V":{
                         try {
-                            Solicitud nuevaSolicitud = new Solicitud();
+                            SolicitudTerminal nuevaSolicitud = new SolicitudTerminal();
                             nuevaSolicitud.setTipoSolicitud(TipoSolicitud.VENTA);
                             nuevaSolicitud.setMatriculaVehiculo(tokens[1]);
                             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy:HH:mm");
@@ -66,7 +66,7 @@ public class App
                     }
                     case "a":
                     case "A":{
-                        Solicitud nuevaSolicitud = new Solicitud();
+                        SolicitudTerminal nuevaSolicitud = new SolicitudTerminal();
                         nuevaSolicitud.setTipoSolicitud(TipoSolicitud.ANULACION);
                         nuevaSolicitud.setNumeroTicket(tokens[1]);
                         adminSolicitud.enviarSolicitud(nuevaSolicitud);

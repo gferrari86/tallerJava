@@ -62,7 +62,7 @@ public class IAdminSolicitudImp implements IAdminSolicitud{
     */
 
     @Override
-    public void enviarSolicitud(Solicitud s) {
+    public void enviarSolicitud(SolicitudTerminal s) {
 
         System.out.println("Envia Solicitud Cliente");
         System.out.println(s.toString());

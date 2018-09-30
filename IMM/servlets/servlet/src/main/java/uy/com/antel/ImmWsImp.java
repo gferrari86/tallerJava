@@ -12,9 +12,16 @@ public class ImmWsImp {
         return "Hello " + name;
     }
 
-    public void getSolicitud(SolicitudIMM sIMM){
+    public SolicitudIMM getSolicitud(SolicitudIMM sIMM){
+
+        System.out.println("IMM Recibido TICKET de SCAC");
 
         System.out.println(sIMM.toString());
+
+        sIMM.setNumeroTicket("numero_ticket_1000");
+
+        return sIMM;
+
     }
 
 
