@@ -2,7 +2,7 @@ package uy.com.antel.mysql;
 
 import uy.com.antel.DAO.ITicketDAO;
 import uy.com.antel.pojo.SolicitudIMM;
-import uy.com.antel.pojo.TipoSolicitud;
+
 
 import javax.naming.NamingException;
 import javax.sql.DataSource;
@@ -21,11 +21,9 @@ public class TicketMysqlDAO implements ITicketDAO {
     final String UPDATE = "UPDATE TEditoriales SET Nombre = ? WHERE EditorialId = ?";
     final String DELETE = "DELETE FROM TEditoriales where EditorialId = ?";
     final String GETALL = "SELECT EditorialId, Nombre FROM TEditoriales";
-    final String GETONE = "SELECT Nombre FROM TEditoriales WHERE EditorialId = ?";
+    final String GETONE = "SELECT Nombre FROM TTicketImm WHERE  NumeroTicketImm = ?";
     //SELECT Nombre FROM Editorial.TEditoriales where Nombre='Edit1';
-    final String GETTHIS = "SELECT Nombre FROM TEditoriales WHERE Nombre= ?";
     final String GETTHISID = "SELECT EditorialId FROM TEditoriales WHERE Nombre= ?";
-
 
     DataSource ds;
 
@@ -72,9 +70,13 @@ public class TicketMysqlDAO implements ITicketDAO {
         String agencia=rs.getString("Agencia");
         t.setAgencia(agencia);
 
+        String estadoticket=rs.getString("EstadoTicket");
+        t.setEstadoTicket(estadoticket);
 
+        Float monto=rs.getFloat("Monto");
+        t.setImporteTotal(monto);
 
-        return null;
+        return t;
     }
 
     public void insertar(SolicitudIMM a) throws DAOException, NamingException {
@@ -127,7 +129,41 @@ public class TicketMysqlDAO implements ITicketDAO {
     }
 
     public SolicitudIMM obtener(String numeroticket) throws DAOException, NamingException {
+        PreparedStatement orden = null;
+        ResultSet rs = null;
+        SolicitudIMM e = null;
+        Connection ps;
+        try {
+            ps = ds.getConnection();
+            orden = ps.prepareStatement(GETONE);
+            orden.setString(1, numeroticket);
+            rs = orden.executeQuery();
+            if (rs.next()) {
+                e = convertirTicket(rs);
+            } else {
+                throw new DAOException("No se ha encontrado registro: " + numeroticket);
+            }
+        } catch (SQLException ex) {
+            throw new DAOException("No se conecto", ex);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    throw new DAOException("Error SQL", ex);
+                }
+                if (orden != null) {
+                    try {
+                        orden.close();
+                    } catch (SQLException ex) {
+                        throw new DAOException("Error SQL", ex);
+                    }
+                }
+            }
 
-        return null;
+            return e;
+        }
     }
+
+
 }
