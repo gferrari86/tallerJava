@@ -14,7 +14,7 @@ public class ImmWsImp {
 
     public SolicitudIMM getSolicitud(SolicitudIMM sIMM){
 
-        System.out.println("IMM Recibido TICKET de SCAC");
+        System.out.println("IMM Recibido TICKET de SCAC.");
 
         System.out.println(sIMM.toString());
 
