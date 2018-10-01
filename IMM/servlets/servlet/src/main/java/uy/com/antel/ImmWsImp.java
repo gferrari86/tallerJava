@@ -1,6 +1,8 @@
 package uy.com.antel;
 
 
+import uy.com.antel.pojo.SolicitudIMM;
+
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 

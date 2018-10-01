@@ -1,9 +1,10 @@
-package uy.com.antel;
+package uy.com.antel.pojo;
 
 import java.util.Date;
 
 public class SolicitudIMM {
 
+    private String numeroTicket;
     private TipoSolicitud tipoSolicitud;
     private String matriculaVehiculo;
     private Date fechaInicioEstacionamiento;
@@ -11,17 +12,18 @@ public class SolicitudIMM {
     private int cantidadMinutos;
     private String codigoAnulacion;
     private Date fechaHoraAnulacion;
-    private final String Agencia = "Agencia 1";
+    private String Agencia;
     private float importeTotal = 0;
-    private String numeroTicket;
     private EstadoTicket estadoTicket = EstadoTicket.VENDIDO;
 
     public TipoSolicitud getTipoSolicitud() {
         return tipoSolicitud;
     }
 
-    public void setTipoSolicitud(TipoSolicitud tipoSolicitud) {
-        this.tipoSolicitud = tipoSolicitud;
+    //public void setTipoSolicitud(TipoSolicitud tipoSolicitud) {
+    //Le paso un String
+    public void setTipoSolicitud(String tSolicitud) {
+        this.tipoSolicitud = tipoSolicitud.valueOf(tSolicitud);
     }
 
     public String getMatriculaVehiculo() {
@@ -76,6 +78,10 @@ public class SolicitudIMM {
         return Agencia;
     }
 
+    public void setAgencia(String Agencia){
+        this.Agencia=Agencia;
+    }
+
     public float getImporteTotal() {
         return importeTotal;
     }
@@ -96,8 +102,8 @@ public class SolicitudIMM {
         return estadoTicket;
     }
 
-    public void setEstadoTicket(EstadoTicket estadoTicket) {
-        this.estadoTicket = estadoTicket;
+    public void setEstadoTicket(String eTicket) {
+        this.estadoTicket = estadoTicket.valueOf(eTicket);
     }
 
     @Override
