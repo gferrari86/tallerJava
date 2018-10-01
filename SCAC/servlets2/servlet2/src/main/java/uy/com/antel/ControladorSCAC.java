@@ -27,22 +27,25 @@ public class ControladorSCAC {
     }
 
 
-    public void procesarSolicitudTerminal(SolicitudTerminal sT){
+    public SolicitudTerminal procesarSolicitudTerminal(SolicitudTerminal sT){
 
+        SolicitudTerminal respuestaSolicitudTerminal = new SolicitudTerminal();
 
         if (sT.getTipoSolicitud() == TipoSolicitud.VENTA) {
 
-            procesarSolicitudVenta(sT);
+            respuestaSolicitudTerminal = procesarSolicitudVenta(sT);
 
         } else if (sT.getTipoSolicitud() == TipoSolicitud.ANULACION){
 
             procesarSolicitudAnulacion(sT);
         }
 
+        return respuestaSolicitudTerminal;
+
 
     }
 
-    private void procesarSolicitudVenta(SolicitudTerminal sT){
+    private SolicitudTerminal procesarSolicitudVenta(SolicitudTerminal sT){
 
         System.out.println("Procesar Solicitud Venta");
 
@@ -65,11 +68,24 @@ public class ControladorSCAC {
             System.out.println(tscac.toString());
 
             //Polimorfismo TicketSCAC hereda de Solicitud IMM
-            enviarSolicitudImmWS(tscac);
+            SolicitudIMM respuestaSolicitudIMM = enviarSolicitudImmWS(tscac);
+
+            // Guardar en base de datos
+            // Enviar a Terminal respuesta
+
+            sT.setImporteTotal(respuestaSolicitudIMM.getImporteTotal());
+            sT.setNumeroTicket(respuestaSolicitudIMM.getNumeroTicket());
+
+
+            sT.setFechaVenta(respuestaSolicitudIMM.getFechaHoraVenta().toGregorianCalendar().getTime());
+
+
+            return sT;
 
 
         } catch (DatatypeConfigurationException e) {
             e.printStackTrace();
+            return null;
         }
 
 
@@ -83,7 +99,7 @@ public class ControladorSCAC {
 
     }
 
-    private void enviarSolicitudImmWS (SolicitudIMM sImm){
+    private SolicitudIMM enviarSolicitudImmWS (SolicitudIMM sImm){
 
 
         try {
@@ -104,9 +120,12 @@ public class ControladorSCAC {
 
             System.out.println(sImmCompleta.getNumeroTicket());
 
+            return sImmCompleta;
+
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
+            return null;
         }
 
 

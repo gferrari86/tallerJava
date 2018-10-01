@@ -21,9 +21,6 @@ public class App
 
         IAdminSolicitud adminSolicitud = IAdminSolicitudImp.getInstancia();
 
-        adminSolicitud.abrirConexion();
-
-
         String comando = null;
 
         do{
