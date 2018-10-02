@@ -48,11 +48,11 @@ public class IAdminSolicitudImp implements IAdminSolicitud{
     @Override
     public void enviarSolicitud(SolicitudTerminal s) {
 
-        System.out.println("Envia Solicitud Cliente");
-        System.out.println(s.toString());
+        //System.out.println("Envia Solicitud Cliente");
+        //System.out.println(s.toString());
 
         try {
-            System.out.println("Abre Conexión Cliente");
+            //System.out.println("Abre Conexión Cliente");
             Socket socket = new Socket("127.0.0.1",65000);
 
             ObjectOutputStream objetoSerial = new ObjectOutputStream(socket.getOutputStream());
@@ -62,7 +62,7 @@ public class IAdminSolicitudImp implements IAdminSolicitud{
             ObjectInputStream objectSerial2 = new ObjectInputStream(socket.getInputStream());
             SolicitudTerminal respuestaSolicitud = (SolicitudTerminal) objectSerial2.readObject();
 
-            System.out.println(respuestaSolicitud.toString());
+            //System.out.println(respuestaSolicitud.toString());
 
             objetoSerial.flush();
             objetoSerial.close();
@@ -89,10 +89,25 @@ public class IAdminSolicitudImp implements IAdminSolicitud{
 
             if(respuestaSolicitudTerminal.getEstadoTicket() == EstadoTicket.VENDIDO){
 
+                System.out.println("------------------------------------------------");
                 System.out.println("VENTA EXITOSA");
                 System.out.println("Importe " + respuestaSolicitudTerminal.getImporteTotal());
                 System.out.println("Numero de ticket " + respuestaSolicitudTerminal.getNumeroTicket());
                 System.out.println("Hora de venta " + respuestaSolicitudTerminal.getFechaVenta());
+                System.out.println("------------------------------------------------");
+
+            }
+
+
+        } else if (respuestaSolicitudTerminal.getTipoSolicitud() == TipoSolicitud.ANULACION){
+
+            if(respuestaSolicitudTerminal.getEstadoTicket() == EstadoTicket.ANULADO) {
+
+                System.out.println("------------------------------------------------");
+                System.out.println("Anulacion EXITOSA");
+                System.out.println("Numero de ticket " + respuestaSolicitudTerminal.getNumeroTicket());
+                System.out.println("Codigo de Anulacion " + respuestaSolicitudTerminal.getCodigoAnulacion());
+                System.out.println("------------------------------------------------");
 
             }
 

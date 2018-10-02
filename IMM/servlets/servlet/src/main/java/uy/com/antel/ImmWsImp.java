@@ -18,10 +18,13 @@ public class ImmWsImp {
 
         System.out.println(sIMM.toString());
 
-        sIMM.setNumeroTicket("numero_ticket_1000");
-        sIMM.setImporteTotal(123);
 
-        return sIMM;
+        ControladorIMM controladorIMM = ControladorIMM.getInstancia();
+        SolicitudIMM respuestaSolicitudIMM = controladorIMM.procesarSolicitudSCAC(sIMM);
+
+
+
+        return respuestaSolicitudIMM;
 
     }
 

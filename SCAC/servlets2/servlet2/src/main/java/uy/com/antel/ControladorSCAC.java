@@ -29,7 +29,7 @@ public class ControladorSCAC {
 
     public SolicitudTerminal procesarSolicitudTerminal(SolicitudTerminal sT){
 
-        SolicitudTerminal respuestaSolicitudTerminal = new SolicitudTerminal();
+        SolicitudTerminal respuestaSolicitudTerminal = null;
 
         if (sT.getTipoSolicitud() == TipoSolicitud.VENTA) {
 
@@ -37,7 +37,7 @@ public class ControladorSCAC {
 
         } else if (sT.getTipoSolicitud() == TipoSolicitud.ANULACION){
 
-            procesarSolicitudAnulacion(sT);
+            respuestaSolicitudTerminal = procesarSolicitudAnulacion(sT);
         }
 
         return respuestaSolicitudTerminal;
@@ -70,7 +70,7 @@ public class ControladorSCAC {
             //Polimorfismo TicketSCAC hereda de Solicitud IMM
             SolicitudIMM respuestaSolicitudIMM = enviarSolicitudImmWS(tscac);
 
-            // Guardar en base de datos
+            // TODO: Guardar en base de datos
             // Enviar a Terminal respuesta
 
             sT.setImporteTotal(respuestaSolicitudIMM.getImporteTotal());
@@ -91,9 +91,30 @@ public class ControladorSCAC {
 
     }
 
-    private void procesarSolicitudAnulacion(SolicitudTerminal sT){
+    private SolicitudTerminal procesarSolicitudAnulacion(SolicitudTerminal sT){
 
         System.out.println("Procesar Solicitud Anulacion");
+
+
+        //TODO:Buscar ticket en base de datos
+        //TODO:Chequear que exista y que estado sea vendido
+        //TODO:Chequear Hora Anulacion < Hora Inicio
+
+        //Recupero ticket a Anular y se lo paso a IMM
+        TicketSCAC tscac = new TicketSCAC();
+        tscac.setNumeroTicket(sT.getNumeroTicket());
+        //Le indico a IMM que lo quiero anular
+        tscac.setEstadoTicket(EstadoTicket.ANULADO);
+        SolicitudIMM respuestaSolicitudIMM = enviarSolicitudImmWS(tscac);
+
+        //TODO: Actualizar base de datos con nuevos datos codigo de anulacion, fecha anulacion y estado
+
+        sT.setCodigoAnulacion(respuestaSolicitudIMM.getCodigoAnulacion());
+        //El estado puede ser Anulado o Error
+        sT.setEstadoTicket(respuestaSolicitudIMM.getEstadoTicket());
+
+        return sT;
+
 
 
     }
@@ -108,12 +129,7 @@ public class ControladorSCAC {
             Service service = Service.create(url, qname);
             ImmWsImp converter = service.getPort(ImmWsImp.class);
 
-            SolicitudIMM sImmCompleta = new SolicitudIMM();
-
-            //converter.getSolicitud(sImm);
-
-
-            sImmCompleta = converter.getSolicitud(sImm);
+            SolicitudIMM sImmCompleta = converter.getSolicitud(sImm);
 
             System.out.println("SCAC Recibido TICKET de IMM");
 
