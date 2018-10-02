@@ -57,15 +57,20 @@ public class IAdminSolicitudImp implements IAdminSolicitud{
 
             ObjectOutputStream objetoSerial = new ObjectOutputStream(socket.getOutputStream());
             objetoSerial.writeObject(s);
-            objetoSerial.flush();
-            objetoSerial.close();
+
 
             ObjectInputStream objectSerial2 = new ObjectInputStream(socket.getInputStream());
             SolicitudTerminal respuestaSolicitud = (SolicitudTerminal) objectSerial2.readObject();
 
             System.out.println(respuestaSolicitud.toString());
 
+            objetoSerial.flush();
+            objetoSerial.close();
+            objectSerial2.close();
+
             socket.close();
+
+            procesarRespuesta(respuestaSolicitud);
 
 
 
@@ -77,4 +82,25 @@ public class IAdminSolicitudImp implements IAdminSolicitud{
 
 
     }
+
+    private void procesarRespuesta(SolicitudTerminal respuestaSolicitudTerminal){
+
+        if (respuestaSolicitudTerminal.getTipoSolicitud() == TipoSolicitud.VENTA){
+
+            if(respuestaSolicitudTerminal.getEstadoTicket() == EstadoTicket.VENDIDO){
+
+                System.out.println("VENTA EXITOSA");
+                System.out.println("Importe " + respuestaSolicitudTerminal.getImporteTotal());
+                System.out.println("Numero de ticket " + respuestaSolicitudTerminal.getNumeroTicket());
+                System.out.println("Hora de venta " + respuestaSolicitudTerminal.getFechaVenta());
+
+            }
+
+
+        }
+
+    }
+
+
+
 }

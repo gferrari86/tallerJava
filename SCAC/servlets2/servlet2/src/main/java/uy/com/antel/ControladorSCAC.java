@@ -75,9 +75,8 @@ public class ControladorSCAC {
 
             sT.setImporteTotal(respuestaSolicitudIMM.getImporteTotal());
             sT.setNumeroTicket(respuestaSolicitudIMM.getNumeroTicket());
-
-
             sT.setFechaVenta(respuestaSolicitudIMM.getFechaHoraVenta().toGregorianCalendar().getTime());
+            sT.setEstadoTicket(respuestaSolicitudIMM.getEstadoTicket());
 
 
             return sT;
