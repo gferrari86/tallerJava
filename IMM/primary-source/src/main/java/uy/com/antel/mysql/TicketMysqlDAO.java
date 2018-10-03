@@ -1,7 +1,9 @@
 package uy.com.antel.mysql;
 
 import uy.com.antel.DAO.ITicketDAO;
+import uy.com.antel.pojo.EstadoTicket;
 import uy.com.antel.pojo.SolicitudIMM;
+import uy.com.antel.pojo.TipoSolicitud;
 
 
 import javax.naming.NamingException;
@@ -40,7 +42,8 @@ public class TicketMysqlDAO implements ITicketDAO {
         t.setNumeroTicket(numeroTicket);
 
         String tipoSolicitud = rs.getString("TipoSolicitud");
-        t.setTipoSolicitud(tipoSolicitud);
+        TipoSolicitud m=TipoSolicitud.valueOf(tipoSolicitud);
+        t.setTipoSolicitud(m);
 
         String matricula = rs.getString("Matricula");
         t.setMatriculaVehiculo(matricula);
@@ -71,7 +74,8 @@ public class TicketMysqlDAO implements ITicketDAO {
         t.setAgencia(agencia);
 
         String estadoticket=rs.getString("EstadoTicket");
-        t.setEstadoTicket(estadoticket);
+        EstadoTicket m1=EstadoTicket.valueOf(estadoticket);
+        t.setEstadoTicket(m1);
 
         Float monto=rs.getFloat("Monto");
         t.setImporteTotal(monto);

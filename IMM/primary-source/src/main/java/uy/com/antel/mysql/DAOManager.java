@@ -20,7 +20,7 @@ public class DAOManager implements IDAOManager {
         this.ds = (DataSource) contexto.lookup("java:jboss/datasources/DBIMM");
     }
 
-    public TicketMysqlDAO getTicketMyslDAO() throws NamingException {
+    public TicketMysqlDAO getTicketMysqlDAO() throws NamingException {
         if (ticketDao==null){
             ticketDao=new TicketMysqlDAO(ds);
         }

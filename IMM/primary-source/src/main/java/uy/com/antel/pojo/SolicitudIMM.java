@@ -20,10 +20,9 @@ public class SolicitudIMM {
         return tipoSolicitud;
     }
 
-    //public void setTipoSolicitud(TipoSolicitud tipoSolicitud) {
-    //Le paso un String
-    public void setTipoSolicitud(String tSolicitud) {
-        this.tipoSolicitud = tipoSolicitud.valueOf(tSolicitud);
+    public void setTipoSolicitud(TipoSolicitud tipoSolicitud) {
+
+        this.tipoSolicitud = tipoSolicitud;
     }
 
     public String getMatriculaVehiculo() {
@@ -102,8 +101,8 @@ public class SolicitudIMM {
         return estadoTicket;
     }
 
-    public void setEstadoTicket(String eTicket) {
-        this.estadoTicket = estadoTicket.valueOf(eTicket);
+    public void setEstadoTicket(EstadoTicket eTicket) {
+        this.estadoTicket = eTicket;
     }
 
     @Override

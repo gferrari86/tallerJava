@@ -5,6 +5,6 @@ import uy.com.antel.mysql.TicketMysqlDAO;
 import javax.naming.NamingException;
 
 public interface IDAOManager {
-    TicketMysqlDAO getTicketMyslDAO() throws NamingException;
+    TicketMysqlDAO getTicketMysqlDAO() throws NamingException;
 
 }
