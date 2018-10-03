@@ -48,24 +48,13 @@ public class TicketMysqlDAO implements ITicketDAO {
         String matricula = rs.getString("Matricula");
         t.setMatriculaVehiculo(matricula);
 
-        String fechaInicioEstacionamiento = rs.getString("FechaInicioEstacionamiento");
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:MM");
-        Date fechaHora=null;
-        try {
-            fechaHora=sdf.parse(fechaInicioEstacionamiento);
-            t.setFechaInicioEstacionamiento(fechaHora);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        Date fechaInicioEstacionamiento = rs.getDate("FechaInicioEstacionamiento");
+        //SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:MM");
+        t.setFechaInicioEstacionamiento(fechaInicioEstacionamiento);
 
-        String fechaVenta = rs.getString("FechaHoraVenta");
-        fechaHora=null;
-        try {
-            fechaHora=sdf.parse(fechaVenta);
-            t.setFechaHoraVenta(fechaHora);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        Date fechaVenta = rs.getDate("FechaHoraVenta");
+        t.setFechaHoraVenta(fechaVenta);
+
 
         Integer cminutos=rs.getInt("CantidadMinutos");
         t.setCantidadMinutos(cminutos);
