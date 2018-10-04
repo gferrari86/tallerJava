@@ -1,5 +1,7 @@
 package uy.com.antel;
 
+import uy.com.antel.pojo.TipoSolicitud;
+
 import java.io.Serializable;
 import java.util.Date;
 

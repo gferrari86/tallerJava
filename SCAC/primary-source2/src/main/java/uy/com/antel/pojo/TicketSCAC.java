@@ -1,8 +1,14 @@
-package uy.com.antel;
+package uy.com.antel.pojo;
+
+import uy.com.antel.SolicitudIMM;
 
 public class TicketSCAC extends SolicitudIMM {
 
     private String idTerminalAgencia;
+
+    private Integer UserIdVenta;
+
+    private Integer UserIdAnulacion;
 
     public String getIdTerminalAgencia() {
         return idTerminalAgencia;
@@ -12,6 +18,21 @@ public class TicketSCAC extends SolicitudIMM {
         this.idTerminalAgencia = idTerminalAgencia;
     }
 
+    public Integer getUserIdVenta() {
+        return UserIdVenta;
+    }
+
+    public void setUserIdVenta(Integer userIdVenta) {
+        UserIdVenta = userIdVenta;
+    }
+
+    public Integer getUserIdAnulacion() {
+        return UserIdAnulacion;
+    }
+
+    public void setUserIdAnulacion(Integer userIdAnulacion) {
+        UserIdAnulacion = userIdAnulacion;
+    }
 
     @Override
     public String toString() {

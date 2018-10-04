@@ -1,6 +1,9 @@
 package uy.com.antel;
 
 
+import uy.com.antel.pojo.TicketSCAC;
+import uy.com.antel.pojo.TipoSolicitud;
+
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;

@@ -1,4 +1,7 @@
 package uy.com.antel.DAO;
 
-public interface ITicketDAO {
+import uy.com.antel.SolicitudIMM;
+import uy.com.antel.pojo.TicketSCAC;
+
+public interface ITicketDAO extends IDAO <TicketSCAC, String> {
 }
