@@ -2,6 +2,7 @@ package uy.com.antel;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -17,8 +18,23 @@ public class HiloRecibeDatosTerminal implements Runnable {
             ObjectInputStream objectSerial = new ObjectInputStream(socketRecepcion.getInputStream());
             SolicitudTerminal s = (SolicitudTerminal) objectSerial.readObject();
 
+
+
             ControladorSCAC controladorSCAC = ControladorSCAC.getInstancia();
-            controladorSCAC.procesarSolicitudTerminal(s);
+            SolicitudTerminal respuestaSolicitudTerminal = controladorSCAC.procesarSolicitudTerminal(s);
+
+            System.out.println("ENVIANDO RESPUESTA A TERMINAL");
+            System.out.println(respuestaSolicitudTerminal.toString());
+
+            ObjectOutputStream objetoSerial2 = new ObjectOutputStream(socketRecepcion.getOutputStream());
+            objetoSerial2.writeObject(respuestaSolicitudTerminal);
+
+
+            objectSerial.close();
+            objetoSerial2.flush();
+            objetoSerial2.close();
+            socketRecepcion.close();
+            socket.close();
 
             System.out.println(s.getMatriculaVehiculo());
 

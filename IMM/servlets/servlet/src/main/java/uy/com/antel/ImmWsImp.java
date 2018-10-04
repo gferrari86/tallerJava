@@ -16,13 +16,17 @@ public class ImmWsImp {
 
     public SolicitudIMM getSolicitud(SolicitudIMM sIMM){
 
-        System.out.println("IMM Recibido TICKET de SCAC");
+        System.out.println("IMM Recibido TICKET de SCAC.");
 
         System.out.println(sIMM.toString());
 
-        sIMM.setNumeroTicket("numero_ticket_1000");
 
-        return sIMM;
+        ControladorIMM controladorIMM = ControladorIMM.getInstancia();
+        SolicitudIMM respuestaSolicitudIMM = controladorIMM.procesarSolicitudSCAC(sIMM);
+
+
+
+        return respuestaSolicitudIMM;
 
     }
 

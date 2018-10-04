@@ -30,22 +30,25 @@ public class ControladorSCAC {
     }
 
 
-    public void procesarSolicitudTerminal(SolicitudTerminal sT){
+    public SolicitudTerminal procesarSolicitudTerminal(SolicitudTerminal sT){
 
+        SolicitudTerminal respuestaSolicitudTerminal = null;
 
         if (sT.getTipoSolicitud() == TipoSolicitud.VENTA) {
 
-            procesarSolicitudVenta(sT);
+            respuestaSolicitudTerminal = procesarSolicitudVenta(sT);
 
         } else if (sT.getTipoSolicitud() == TipoSolicitud.ANULACION){
 
-            procesarSolicitudAnulacion(sT);
+            respuestaSolicitudTerminal = procesarSolicitudAnulacion(sT);
         }
+
+        return respuestaSolicitudTerminal;
 
 
     }
 
-    private void procesarSolicitudVenta(SolicitudTerminal sT){
+    private SolicitudTerminal procesarSolicitudVenta(SolicitudTerminal sT){
 
         System.out.println("Procesar Solicitud Venta");
 
@@ -68,25 +71,58 @@ public class ControladorSCAC {
             System.out.println(tscac.toString());
 
             //Polimorfismo TicketSCAC hereda de Solicitud IMM
-            enviarSolicitudImmWS(tscac);
+            SolicitudIMM respuestaSolicitudIMM = enviarSolicitudImmWS(tscac);
+
+            // TODO: Guardar en base de datos
+            // Enviar a Terminal respuesta
+
+            sT.setImporteTotal(respuestaSolicitudIMM.getImporteTotal());
+            sT.setNumeroTicket(respuestaSolicitudIMM.getNumeroTicket());
+            sT.setFechaVenta(respuestaSolicitudIMM.getFechaHoraVenta().toGregorianCalendar().getTime());
+            sT.setEstadoTicket(respuestaSolicitudIMM.getEstadoTicket());
+
+
+            return sT;
 
 
         } catch (DatatypeConfigurationException e) {
             e.printStackTrace();
+            return null;
         }
 
 
 
     }
 
-    private void procesarSolicitudAnulacion(SolicitudTerminal sT){
+    private SolicitudTerminal procesarSolicitudAnulacion(SolicitudTerminal sT){
 
         System.out.println("Procesar Solicitud Anulacion");
 
 
+        //TODO:Buscar ticket en base de datos
+        //TODO:Chequear que exista y que estado sea vendido
+        //TODO:Chequear Hora Anulacion < Hora Inicio
+
+        //Recupero ticket a Anular y se lo paso a IMM
+        TicketSCAC tscac = new TicketSCAC();
+        tscac.setNumeroTicket(sT.getNumeroTicket());
+        //Le indico a IMM que lo quiero anular
+        tscac.setEstadoTicket(EstadoTicket.ANULADO);
+        SolicitudIMM respuestaSolicitudIMM = enviarSolicitudImmWS(tscac);
+
+        //TODO: Actualizar base de datos con nuevos datos codigo de anulacion, fecha anulacion y estado
+
+        sT.setCodigoAnulacion(respuestaSolicitudIMM.getCodigoAnulacion());
+        //El estado puede ser Anulado o Error
+        sT.setEstadoTicket(respuestaSolicitudIMM.getEstadoTicket());
+
+        return sT;
+
+
+
     }
 
-    private void enviarSolicitudImmWS (SolicitudIMM sImm){
+    private SolicitudIMM enviarSolicitudImmWS (SolicitudIMM sImm){
 
 
         try {
@@ -96,20 +132,18 @@ public class ControladorSCAC {
             Service service = Service.create(url, qname);
             ImmWsImp converter = service.getPort(ImmWsImp.class);
 
-            SolicitudIMM sImmCompleta = new SolicitudIMM();
-
-            //converter.getSolicitud(sImm);
-
-
-            sImmCompleta = converter.getSolicitud(sImm);
+            SolicitudIMM sImmCompleta = converter.getSolicitud(sImm);
 
             System.out.println("SCAC Recibido TICKET de IMM");
 
             System.out.println(sImmCompleta.getNumeroTicket());
 
+            return sImmCompleta;
+
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
+            return null;
         }
 
 

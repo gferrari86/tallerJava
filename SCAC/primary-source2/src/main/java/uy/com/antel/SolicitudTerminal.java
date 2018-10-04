@@ -16,6 +16,7 @@ public class SolicitudTerminal implements Serializable{
     private String numeroTicket;
     private String codigoAnulacion;
     private Date fechaAnulacion;
+    private EstadoTicket estadoTicket = EstadoTicket.VENDIDO;
     private final String idTerminalAgencia = "Sucursal 1 - Agencia 1";
 
 
@@ -95,9 +96,17 @@ public class SolicitudTerminal implements Serializable{
         return idTerminalAgencia;
     }
 
+    public EstadoTicket getEstadoTicket() {
+        return estadoTicket;
+    }
+
+    public void setEstadoTicket(EstadoTicket estadoTicket) {
+        this.estadoTicket = estadoTicket;
+    }
+
     @Override
     public String toString() {
-        return "Solicitud{" +
+        return "SolicitudTerminal{" +
                 "tipoSolicitud=" + tipoSolicitud +
                 ", matriculaVehiculo='" + matriculaVehiculo + '\'' +
                 ", fechaInicioEstacionamiento=" + fechaInicioEstacionamiento +
@@ -107,6 +116,7 @@ public class SolicitudTerminal implements Serializable{
                 ", numeroTicket='" + numeroTicket + '\'' +
                 ", codigoAnulacion='" + codigoAnulacion + '\'' +
                 ", fechaAnulacion=" + fechaAnulacion +
+                ", estadoTicket=" + estadoTicket +
                 ", idTerminalAgencia='" + idTerminalAgencia + '\'' +
                 '}';
     }
