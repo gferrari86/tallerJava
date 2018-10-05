@@ -65,20 +65,24 @@ public class ControladorSCAC {
             tscac.setCantidadMinutos(sT.getCantidadMinutos());
             tscac.setIdTerminalAgencia(sT.getIdTerminalAgencia());
 
+            //paso fecha2XMLGregorianCalendar
             GregorianCalendar fechaActual = (GregorianCalendar) GregorianCalendar.getInstance();
             XMLGregorianCalendar fechaActual2 = DatatypeFactory.newInstance().newXMLGregorianCalendar(fechaActual);
             tscac.setFechaHoraVenta(fechaActual2);
+            tscac.setEstadoTicket(sT.getEstadoTicket());
 
             System.out.println("SCAC Recibido TICKET de Terminal");
             System.out.println(tscac.toString());
-            //Guardo
-            DAOManagerScac guardo = new DAOManagerScac();
-            guardo.getTicketMysqlDAO().insertar(tscac);
+
+
 
             //Polimorfismo TicketSCAC hereda de Solicitud IMM
             SolicitudIMM respuestaSolicitudIMM = enviarSolicitudImmWS(tscac);
 
             // TODO: Guardar en base de datos
+
+            DAOManagerScac guardo = new DAOManagerScac();
+            guardo.getTicketMysqlDAO().insertar(tscac);
             // Enviar a Terminal respuesta
 
             sT.setImporteTotal(respuestaSolicitudIMM.getImporteTotal());

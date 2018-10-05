@@ -18,7 +18,7 @@ public class DAOManagerScac implements IDAOManagerScac {
 
     public DAOManagerScac() throws NamingException {
         this.contexto = new InitialContext();
-        this.ds = (DataSource) contexto.lookup("java:jboss/datasources/DBIMM");
+        this.ds = (DataSource) contexto.lookup("java:jboss/datasources/DBSCAC");
     }
 
     public TicketDaoMysqlScac getTicketMysqlDAO() throws NamingException {

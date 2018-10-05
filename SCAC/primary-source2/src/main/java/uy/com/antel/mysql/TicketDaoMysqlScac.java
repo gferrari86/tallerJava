@@ -20,7 +20,7 @@ import java.util.TimeZone;
 
 public class TicketDaoMysqlScac implements ITicketDAO {
     //Primer recibe pedido
-    final String INSERT = "INSERT INTO TTicketImm (NumeroTicketSCAC,TipoSolicitud,Matricula,FechaInicioEstacionamiento,FechaHoraVenta,CantidadMinutos,IdTerminal,EstadoTicket,Monto,UserIdVenta) values (?,?,?,?,?,?,?,?,?)";
+    final String INSERT = "INSERT INTO TTicketImm (NumeroTicketSCAC,TipoSolicitud,Matricula,FechaInicioEstacionamiento,FechaHoraVenta,CantidadMinutos,IdTerminal,EstadoTicket,Monto) values (?,?,?,?,?,?,?,?,?)";
     final String UPDATE = "UPDATE TEditoriales SET Nombre = ? WHERE EditorialId = ?";
     final String DELETE = "DELETE FROM TEditoriales where EditorialId = ?";
     final String GETALL = "SELECT EditorialId, Nombre FROM TEditoriales";
@@ -112,16 +112,21 @@ public class TicketDaoMysqlScac implements ITicketDAO {
             orden.setString(1, (String) a.getNumeroTicket());
             orden.setString(2, a.getTipoSolicitud().toString());
             orden.setString(3,a.getMatriculaVehiculo());
-            //pasar xmlgregoriancalendar >> date
+
+            //pasar xmlgregoriancalendar >> date.java.util >> date.sql.date
             Date dateFIE=xmlGregorianCalendarToDate(a.getFechaInicioEstacionamiento(), TimeZone.getTimeZone("GMT-3:00"));
-            orden.setDate(4, (java.sql.Date) dateFIE);
+            java.sql.Date sqlDateFIE = new java.sql.Date(dateFIE.getTime());
+            orden.setDate(4, sqlDateFIE);
+
             Date dateFHV=xmlGregorianCalendarToDate(a.getFechaHoraVenta(), TimeZone.getTimeZone("GMT-3:00"));
-            orden.setDate(5,(java.sql.Date)dateFHV);//YY-MM-DD hh:mm
+            java.sql.Date sqlDateFHV = new java.sql.Date(dateFHV.getTime());
+            orden.setDate(5,sqlDateFHV);
+
             orden.setInt(6,a.getCantidadMinutos());
             orden.setString(7,a.getIdTerminalAgencia());
             orden.setString(8,a.getEstadoTicket().toString());
             orden.setFloat(9,a.getImporteTotal());
-
+            orden.execute();
 
             if (orden.executeUpdate() == 0) {
                 throw new DAOException("no se guardo dato " );

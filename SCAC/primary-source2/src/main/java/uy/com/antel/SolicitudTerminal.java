@@ -15,7 +15,7 @@ public class SolicitudTerminal implements Serializable{
     private String codigoAnulacion;
     private Date fechaAnulacion;
     private EstadoTicket estadoTicket = EstadoTicket.VENDIDO;
-    private final String idTerminalAgencia = "Sucursal 1 - Agencia 1";
+    private final String idTerminalAgencia = "Agencia";
     private String user;
 
 
