@@ -36,7 +36,7 @@ public class App
                         System.out.println("H\n" +
                                 "- despliega una ayuda para el usuario\n" +
                                 "V <matriculaVehiculo> <fechaInicioEstacionamiento> <cantidadMinutos>\n" +
-                                "- Genera una solicitud de venta. Formato fechaInicioEstacionamiento=dd/MM/yyyy:HH:mm \n" +
+                                "- Genera una solicitud de venta. Formato fechaInicioEstacionamiento=dd/MM/yyyy HH:mm \n" +
                                 "A <numeroTicket>\n" +
                                 "- Genera una solicitud para anular el Ticket\n" +
                                 "Q\n" +

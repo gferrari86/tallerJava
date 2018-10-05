@@ -16,6 +16,8 @@ public class HiloRecibeDatosTerminal implements Runnable {
             Socket socketRecepcion = socket.accept();
 
             ObjectInputStream objectSerial = new ObjectInputStream(socketRecepcion.getInputStream());
+
+            //Recibo s objeto desde la terminal
             SolicitudTerminal s = (SolicitudTerminal) objectSerial.readObject();
 
 

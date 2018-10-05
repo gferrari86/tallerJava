@@ -1,5 +1,9 @@
 package uy.com.antel;
 
+import uy.com.antel.pojo.EstadoTicket;
+import uy.com.antel.pojo.SolicitudIMM;
+import uy.com.antel.pojo.TipoSolicitud;
+
 public class ControladorIMM {
 
     private ControladorIMM() {

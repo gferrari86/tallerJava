@@ -1,27 +1,24 @@
 package uy.com.antel.mysql;
 
 import uy.com.antel.DAO.ITicketDAO;
-import uy.com.antel.pojo.EstadoTicket;
+import uy.com.antel.EstadoTicket;
 import uy.com.antel.pojo.TicketSCAC;
-import uy.com.antel.pojo.TipoSolicitud;
+import uy.com.antel.TipoSolicitud;
 
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
 
-public class TicketDaoScac implements ITicketDAO {
+public class TicketDaoMysqlScac implements ITicketDAO {
     //Primer recibe pedido
     final String INSERT = "INSERT INTO TTicketImm (NumeroTicketSCAC,TipoSolicitud,Matricula,FechaInicioEstacionamiento,FechaHoraVenta,CantidadMinutos,IdTerminal,EstadoTicket,Monto,UserIdVenta) values (?,?,?,?,?,?,?,?,?)";
     final String UPDATE = "UPDATE TEditoriales SET Nombre = ? WHERE EditorialId = ?";
@@ -36,7 +33,7 @@ public class TicketDaoScac implements ITicketDAO {
     private String TZ="GMT-3:00";
     private TimeZone timezone= TimeZone.getTimeZone(TZ);
 
-    public TicketDaoScac(DataSource ds) {
+    public TicketDaoMysqlScac(DataSource ds) {
         this.ds = (DataSource) ds;
 
     }

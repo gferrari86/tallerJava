@@ -1,5 +1,5 @@
 
-package uy.com.antel.pojo;
+package uy.com.antel;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlType;

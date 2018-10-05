@@ -1,9 +1,11 @@
 package uy.com.antel;
 
 
+import uy.com.antel.mysql.DAOException;
+import uy.com.antel.mysql.DAOManagerScac;
 import uy.com.antel.pojo.TicketSCAC;
-import uy.com.antel.pojo.TipoSolicitud;
 
+import javax.naming.NamingException;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -23,14 +25,14 @@ public class ControladorSCAC {
     private static final ControladorSCAC instancia = new ControladorSCAC();
 
 
-    public static ControladorSCAC getInstancia(){
+    public static ControladorSCAC getInstancia() {
 
         return instancia;
 
     }
 
 
-    public SolicitudTerminal procesarSolicitudTerminal(SolicitudTerminal sT){
+    public SolicitudTerminal procesarSolicitudTerminal(SolicitudTerminal sT) {
 
         SolicitudTerminal respuestaSolicitudTerminal = null;
 
@@ -38,7 +40,7 @@ public class ControladorSCAC {
 
             respuestaSolicitudTerminal = procesarSolicitudVenta(sT);
 
-        } else if (sT.getTipoSolicitud() == TipoSolicitud.ANULACION){
+        } else if (sT.getTipoSolicitud() == TipoSolicitud.ANULACION) {
 
             respuestaSolicitudTerminal = procesarSolicitudAnulacion(sT);
         }
@@ -48,7 +50,7 @@ public class ControladorSCAC {
 
     }
 
-    private SolicitudTerminal procesarSolicitudVenta(SolicitudTerminal sT){
+    private SolicitudTerminal procesarSolicitudVenta(SolicitudTerminal sT) {
 
         System.out.println("Procesar Solicitud Venta");
 
@@ -69,6 +71,9 @@ public class ControladorSCAC {
 
             System.out.println("SCAC Recibido TICKET de Terminal");
             System.out.println(tscac.toString());
+            //Guardo
+            DAOManagerScac guardo = new DAOManagerScac();
+            guardo.getTicketMysqlDAO().insertar(tscac);
 
             //Polimorfismo TicketSCAC hereda de Solicitud IMM
             SolicitudIMM respuestaSolicitudIMM = enviarSolicitudImmWS(tscac);
@@ -88,8 +93,13 @@ public class ControladorSCAC {
         } catch (DatatypeConfigurationException e) {
             e.printStackTrace();
             return null;
+        } catch (NamingException e) {
+            e.printStackTrace();
+            return null;
+        } catch (DAOException e) {
+            e.printStackTrace();
+            return null;
         }
-
 
 
     }

@@ -1,7 +1,5 @@
 package uy.com.antel;
 
-import uy.com.antel.pojo.TipoSolicitud;
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -18,6 +16,7 @@ public class SolicitudTerminal implements Serializable{
     private Date fechaAnulacion;
     private EstadoTicket estadoTicket = EstadoTicket.VENDIDO;
     private final String idTerminalAgencia = "Sucursal 1 - Agencia 1";
+    private String user;
 
 
     public TipoSolicitud getTipoSolicitud() {
@@ -102,6 +101,16 @@ public class SolicitudTerminal implements Serializable{
 
     public void setEstadoTicket(EstadoTicket estadoTicket) {
         this.estadoTicket = estadoTicket;
+    }
+
+    private static final long serialVersionUID = 6529685098267757690L;
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
     }
 
     @Override
