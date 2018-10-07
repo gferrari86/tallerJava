@@ -1,10 +1,12 @@
 package uy.com.antel;
 
 
+import uy.com.antel.mysql.DAOException;
 import uy.com.antel.pojo.SolicitudIMM;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
+import javax.naming.NamingException;
 
 @WebService
 public class ImmWsImp {
@@ -14,7 +16,7 @@ public class ImmWsImp {
         return "Hello " + name;
     }
 
-    public SolicitudIMM getSolicitud(SolicitudIMM sIMM){
+    public SolicitudIMM getSolicitud(SolicitudIMM sIMM) throws DAOException, NamingException {
 
         System.out.println("IMM Recibido TICKET de SCAC.");
 

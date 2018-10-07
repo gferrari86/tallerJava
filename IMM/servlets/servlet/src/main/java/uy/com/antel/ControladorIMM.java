@@ -1,8 +1,14 @@
 package uy.com.antel;
 
+import uy.com.antel.mysql.DAOException;
+import uy.com.antel.mysql.DAOManager;
 import uy.com.antel.pojo.EstadoTicket;
 import uy.com.antel.pojo.SolicitudIMM;
 import uy.com.antel.pojo.TipoSolicitud;
+
+import javax.naming.NamingException;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 
 public class ControladorIMM {
 
@@ -12,27 +18,35 @@ public class ControladorIMM {
 
     private static final ControladorIMM instancia = new ControladorIMM();
 
-
     public static ControladorIMM getInstancia(){
 
         return instancia;
 
     }
+    public static String GeneroTicketIMM () {
 
-    public SolicitudIMM procesarSolicitudSCAC(SolicitudIMM sScac){
+        SecureRandom random = new SecureRandom();
+        String text = new BigInteger(64, random).toString(16);
+        //System.out.println("imm" + text);
+        return "imm"+text;
+    }
+    public SolicitudIMM procesarSolicitudSCAC(SolicitudIMM sScac) throws NamingException, DAOException {
 
         if(sScac.getTipoSolicitud() == TipoSolicitud.VENTA){
 
             //TODO: Calcular importe
-            //TODO: Generar numero de ticket
-            //TODO: Guardar en base de datos
-            sScac.setNumeroTicket("numero_ticket_1000");
+
             sScac.setImporteTotal(123);
             sScac.setEstadoTicket(EstadoTicket.VENDIDO);
 
+            //TODO: Generar numero de ticket
+            sScac.setNumeroTicket(GeneroTicketIMM());
+
+            //TODO: Guardar en base de datos
+            DAOManager guardoTicket= new DAOManager();
+            guardoTicket.getTicketMysqlDAO().insertar(sScac);
+
             return sScac;
-
-
 
         }else if(sScac.getTipoSolicitud() == TipoSolicitud.ANULACION){
 

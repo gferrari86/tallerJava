@@ -11,8 +11,10 @@ import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
+import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.SecureRandom;
 import java.util.GregorianCalendar;
 
 public class ControladorSCAC {
@@ -31,6 +33,13 @@ public class ControladorSCAC {
 
     }
 
+    public static String GeneroTicketSCAC () {
+
+        SecureRandom random = new SecureRandom();
+        String text = new BigInteger(64, random).toString(16);
+        //System.out.println("imm" + text);
+        return "scac"+text;
+    }
 
     public SolicitudTerminal procesarSolicitudTerminal(SolicitudTerminal sT) {
 
@@ -79,7 +88,7 @@ public class ControladorSCAC {
             tscac.setUserIdAnulacion(1);
 
             //Crear metodo generador de ticketSCAC
-            tscac.setNumeroTicket("123XEB");
+            tscac.setNumeroTicket(GeneroTicketSCAC());
 
             //Identifico la Agencia
             tscac.setAgencia("Abitab");

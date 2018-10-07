@@ -35,6 +35,12 @@ public class TicketMysqlDAO implements ITicketDAO {
 
     }
 
+    private static java.sql.Date convertUtilToSql(java.util.Date uDate) {
+        java.sql.Date sDate = new java.sql.Date(uDate.getTime());
+        return sDate;
+    }
+
+
     private SolicitudIMM convertirTicket(ResultSet rs) throws SQLException {
         SolicitudIMM t= new SolicitudIMM();
 
@@ -49,7 +55,6 @@ public class TicketMysqlDAO implements ITicketDAO {
         t.setMatriculaVehiculo(matricula);
 
         Date fechaInicioEstacionamiento = rs.getDate("FechaInicioEstacionamiento");
-        //SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:MM");
         t.setFechaInicioEstacionamiento(fechaInicioEstacionamiento);
 
         Date fechaVenta = rs.getDate("FechaHoraVenta");
@@ -81,8 +86,8 @@ public class TicketMysqlDAO implements ITicketDAO {
             orden.setString(1, (String) a.getNumeroTicket());
             orden.setString(2, a.getTipoSolicitud().toString());
             orden.setString(3,a.getMatriculaVehiculo());
-            orden.setDate(4, (java.sql.Date) a.getFechaInicioEstacionamiento());
-            orden.setDate(5,(java.sql.Date)a.getFechaHoraVenta());//YY-MM-DD hh:mm
+            orden.setDate(4, (convertUtilToSql(a.getFechaInicioEstacionamiento())));
+            orden.setDate(5,(convertUtilToSql(a.getFechaHoraVenta())));
             orden.setInt(6,a.getCantidadMinutos());
             orden.setString(7,a.getAgencia());
             orden.setString(8,a.getEstadoTicket().toString());
