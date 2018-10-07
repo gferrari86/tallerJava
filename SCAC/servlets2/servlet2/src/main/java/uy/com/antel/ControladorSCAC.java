@@ -81,6 +81,11 @@ public class ControladorSCAC {
             //Crear metodo generador de ticketSCAC
             tscac.setNumeroTicket("123XEB");
 
+            //Identifico la Agencia
+            tscac.setAgencia("Abitab");
+
+
+
             System.out.println("SCAC Recibido TICKET de Terminal");
             System.out.println(tscac.toString());
 

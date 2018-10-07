@@ -18,6 +18,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
+ *         &lt;element name="agencia" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="cantidadMinutos" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="codigoAnulacion" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="estadoTicket" type="{http://antel.com.uy/}estadoTicket" minOccurs="0"/>
@@ -38,6 +39,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "solicitudIMM", propOrder = {
+    "agencia",
     "cantidadMinutos",
     "codigoAnulacion",
     "estadoTicket",
@@ -51,6 +53,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 })
 public class SolicitudIMM {
 
+    protected String agencia;
     protected int cantidadMinutos;
     protected String codigoAnulacion;
     @XmlSchemaType(name = "string")
@@ -66,6 +69,30 @@ public class SolicitudIMM {
     protected String numeroTicket;
     @XmlSchemaType(name = "string")
     protected TipoSolicitud tipoSolicitud;
+
+    /**
+     * Obtiene el valor de la propiedad agencia.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getAgencia() {
+        return agencia;
+    }
+
+    /**
+     * Define el valor de la propiedad agencia.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setAgencia(String value) {
+        this.agencia = value;
+    }
 
     /**
      * Obtiene el valor de la propiedad cantidadMinutos.

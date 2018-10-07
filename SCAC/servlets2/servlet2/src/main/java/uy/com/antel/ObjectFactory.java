@@ -25,7 +25,9 @@ import javax.xml.namespace.QName;
 public class ObjectFactory {
 
     private final static QName _SayHello_QNAME = new QName("http://antel.com.uy/", "sayHello");
+    private final static QName _DAOException_QNAME = new QName("http://antel.com.uy/", "DAOException");
     private final static QName _SayHelloResponse_QNAME = new QName("http://antel.com.uy/", "sayHelloResponse");
+    private final static QName _NamingException_QNAME = new QName("http://antel.com.uy/", "NamingException");
     private final static QName _GetSolicitud_QNAME = new QName("http://antel.com.uy/", "getSolicitud");
     private final static QName _GetSolicitudResponse_QNAME = new QName("http://antel.com.uy/", "getSolicitudResponse");
 
@@ -37,11 +39,27 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link DAOException }
+     * 
+     */
+    public DAOException createDAOException() {
+        return new DAOException();
+    }
+
+    /**
      * Create an instance of {@link SayHello }
      * 
      */
     public SayHello createSayHello() {
         return new SayHello();
+    }
+
+    /**
+     * Create an instance of {@link NamingException }
+     * 
+     */
+    public NamingException createNamingException() {
+        return new NamingException();
     }
 
     /**
@@ -86,12 +104,30 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link DAOException }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://antel.com.uy/", name = "DAOException")
+    public JAXBElement<DAOException> createDAOException(DAOException value) {
+        return new JAXBElement<DAOException>(_DAOException_QNAME, DAOException.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link SayHelloResponse }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "http://antel.com.uy/", name = "sayHelloResponse")
     public JAXBElement<SayHelloResponse> createSayHelloResponse(SayHelloResponse value) {
         return new JAXBElement<SayHelloResponse>(_SayHelloResponse_QNAME, SayHelloResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link NamingException }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://antel.com.uy/", name = "NamingException")
+    public JAXBElement<NamingException> createNamingException(NamingException value) {
+        return new JAXBElement<NamingException>(_NamingException_QNAME, NamingException.class, null, value);
     }
 
     /**
