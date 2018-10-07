@@ -71,10 +71,18 @@ public class ControladorSCAC {
             tscac.setFechaHoraVenta(fechaActual2);
             tscac.setEstadoTicket(sT.getEstadoTicket());
 
+            //Inicializo variables
+            tscac.setCodigoAnulacion("NC");
+
+            //Debe venir desde la terminal el usuario
+            tscac.setUserIdVenta(1);
+            tscac.setUserIdAnulacion(1);
+
+            //Crear metodo generador de ticketSCAC
+            tscac.setNumeroTicket("123XEB");
+
             System.out.println("SCAC Recibido TICKET de Terminal");
             System.out.println(tscac.toString());
-
-
 
             //Polimorfismo TicketSCAC hereda de Solicitud IMM
             SolicitudIMM respuestaSolicitudIMM = enviarSolicitudImmWS(tscac);
@@ -90,9 +98,7 @@ public class ControladorSCAC {
             sT.setFechaVenta(respuestaSolicitudIMM.getFechaHoraVenta().toGregorianCalendar().getTime());
             sT.setEstadoTicket(respuestaSolicitudIMM.getEstadoTicket());
 
-
             return sT;
-
 
         } catch (DatatypeConfigurationException e) {
             e.printStackTrace();

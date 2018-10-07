@@ -20,11 +20,11 @@ import java.util.TimeZone;
 
 public class TicketDaoMysqlScac implements ITicketDAO {
     //Primer recibe pedido
-    final String INSERT = "INSERT INTO TTicketImm (NumeroTicketSCAC,TipoSolicitud,Matricula,FechaInicioEstacionamiento,FechaHoraVenta,CantidadMinutos,IdTerminal,EstadoTicket,Monto) values (?,?,?,?,?,?,?,?,?)";
+    final String INSERT = "INSERT INTO TTicketScac (NumeroTicketSCAC,TipoSolicitud,Matricula,FechaInicioEstacionamiento,FechaHoraVenta,CantidadMinutos,IdTerminal,EstadoTicket,Monto,CodigoAnulacion,UserIdVenta,UserIdAnulacion) values (?,?,?,?,?,?,?,?,?,?,?,?)";
     final String UPDATE = "UPDATE TEditoriales SET Nombre = ? WHERE EditorialId = ?";
     final String DELETE = "DELETE FROM TEditoriales where EditorialId = ?";
     final String GETALL = "SELECT EditorialId, Nombre FROM TEditoriales";
-    final String GETONE = "SELECT Nombre FROM TTicketImm WHERE  NumeroTicketImm = ?";
+    final String GETONE = "SELECT Nombre FROM TTicketScac WHERE  NumeroTicketImm = ?";
     //SELECT Nombre FROM Editorial.TEditoriales where Nombre='Edit1';
     final String GETTHISID = "SELECT EditorialId FROM TEditoriales WHERE Nombre= ?";
 
@@ -98,6 +98,10 @@ public class TicketDaoMysqlScac implements ITicketDAO {
         t.setImporteTotal(monto);
 
         Integer uid=rs.getInt("UserIdVenta");
+        t.setUserIdVenta(uid);
+
+        String CodigoAnulacion=rs.getString("CodigoAnulacion");
+        t.setCodigoAnulacion(CodigoAnulacion);
 
         return t;
     }
@@ -126,7 +130,9 @@ public class TicketDaoMysqlScac implements ITicketDAO {
             orden.setString(7,a.getIdTerminalAgencia());
             orden.setString(8,a.getEstadoTicket().toString());
             orden.setFloat(9,a.getImporteTotal());
-            orden.execute();
+            orden.setString(10,a.getCodigoAnulacion());
+            orden.setInt(11,a.getUserIdVenta());
+            orden.setInt(12,a.getUserIdAnulacion());
 
             if (orden.executeUpdate() == 0) {
                 throw new DAOException("no se guardo dato " );
