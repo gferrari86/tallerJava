@@ -20,11 +20,11 @@ import java.util.TimeZone;
 
 public class TicketDaoMysqlScac implements ITicketDAO {
     //Primer recibe pedido
-    final String INSERT = "INSERT INTO TTicketScac (NumeroTicketSCAC,TipoSolicitud,Matricula,FechaInicioEstacionamiento,FechaHoraVenta,CantidadMinutos,IdTerminal,EstadoTicket,Monto,CodigoAnulacion,UserIdVenta,UserIdAnulacion) values (?,?,?,?,?,?,?,?,?,?,?,?)";
+    final String INSERT = "INSERT INTO TTicketScac (NumeroTicketSCAC,TipoSolicitud,Matricula,FechaInicioEstacionamiento,FechaHoraVenta,CantidadMinutos,IdTerminal,EstadoTicket,Monto,CodigoAnulacion,UserIdVenta,UserIdAnulacion,NumeroTicketImm) values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
     final String UPDATE = "UPDATE TEditoriales SET Nombre = ? WHERE EditorialId = ?";
     final String DELETE = "DELETE FROM TEditoriales where EditorialId = ?";
     final String GETALL = "SELECT EditorialId, Nombre FROM TEditoriales";
-    final String GETONE = "SELECT Nombre FROM TTicketScac WHERE  NumeroTicketImm = ?";
+    final String GETONE = "SELECT * FROM TTicketScac WHERE  NumeroTicketImm = ?";
     //SELECT Nombre FROM Editorial.TEditoriales where Nombre='Edit1';
     final String GETTHISID = "SELECT EditorialId FROM TEditoriales WHERE Nombre= ?";
 
@@ -103,6 +103,9 @@ public class TicketDaoMysqlScac implements ITicketDAO {
         String CodigoAnulacion=rs.getString("CodigoAnulacion");
         t.setCodigoAnulacion(CodigoAnulacion);
 
+        String numeroTicketSCAC=rs.getString("NumeroTicketSCAC");
+        t.setNumeroTicketSCAC(numeroTicketSCAC);
+
         return t;
     }
 
@@ -113,7 +116,7 @@ public class TicketDaoMysqlScac implements ITicketDAO {
         try {
             ps = ds.getConnection();
             orden = ps.prepareStatement(INSERT);
-            orden.setString(1, (String) a.getNumeroTicket());
+            orden.setString(1, (String) a.getNumeroTicketSCAC());
             orden.setString(2, a.getTipoSolicitud().toString());
             orden.setString(3,a.getMatriculaVehiculo());
 
@@ -133,6 +136,7 @@ public class TicketDaoMysqlScac implements ITicketDAO {
             orden.setString(10,a.getCodigoAnulacion());
             orden.setInt(11,a.getUserIdVenta());
             orden.setInt(12,a.getUserIdAnulacion());
+            orden.setString(13,a.getNumeroTicket());
 
             if (orden.executeUpdate() == 0) {
                 throw new DAOException("no se guardo dato " );

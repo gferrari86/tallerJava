@@ -88,7 +88,7 @@ public class ControladorSCAC {
             tscac.setUserIdAnulacion(1);
 
             //Crear metodo generador de ticketSCAC
-            tscac.setNumeroTicket(GeneroTicketSCAC());
+            tscac.setNumeroTicketSCAC(GeneroTicketSCAC());
 
             //Identifico la Agencia
             tscac.setAgencia("Abitab");
@@ -100,6 +100,10 @@ public class ControladorSCAC {
 
             //Polimorfismo TicketSCAC hereda de Solicitud IMM
             SolicitudIMM respuestaSolicitudIMM = enviarSolicitudImmWS(tscac);
+
+            tscac.setNumeroTicket(respuestaSolicitudIMM.getNumeroTicket());
+            tscac.setImporteTotal(respuestaSolicitudIMM.getImporteTotal());
+            tscac.setEstadoTicket(respuestaSolicitudIMM.getEstadoTicket());
 
             // TODO: Guardar en base de datos
 
@@ -130,25 +134,36 @@ public class ControladorSCAC {
 
     private SolicitudTerminal procesarSolicitudAnulacion(SolicitudTerminal sT){
 
-        System.out.println("Procesar Solicitud Anulacion");
+        try {
+            System.out.println("Procesar Solicitud Anulacion");
 
+            DAOManagerScac obtengo = new DAOManagerScac();
+            TicketSCAC tscac2 = obtengo.getTicketMysqlDAO().obtener(sT.getNumeroTicket());
 
-        //TODO:Buscar ticket en base de datos
-        //TODO:Chequear que exista y que estado sea vendido
-        //TODO:Chequear Hora Anulacion < Hora Inicio
+            System.out.println("Ticket Obtenido en SCAC para Anular");
+            System.out.println(tscac2.toString());
 
-        //Recupero ticket a Anular y se lo paso a IMM
-        TicketSCAC tscac = new TicketSCAC();
-        tscac.setNumeroTicket(sT.getNumeroTicket());
-        //Le indico a IMM que lo quiero anular
-        tscac.setEstadoTicket(EstadoTicket.ANULADO);
-        SolicitudIMM respuestaSolicitudIMM = enviarSolicitudImmWS(tscac);
+            //TODO:Buscar ticket en base de datos
+            //TODO:Chequear que exista y que estado sea vendido
+            //TODO:Chequear Hora Anulacion < Hora Inicio
 
-        //TODO: Actualizar base de datos con nuevos datos codigo de anulacion, fecha anulacion y estado
+            //Recupero ticket a Anular y se lo paso a IMM
+            TicketSCAC tscac = new TicketSCAC();
+            tscac.setNumeroTicket(sT.getNumeroTicket());
+            //Le indico a IMM que lo quiero anular
+            tscac.setEstadoTicket(EstadoTicket.ANULADO);
+            SolicitudIMM respuestaSolicitudIMM = enviarSolicitudImmWS(tscac);
 
-        sT.setCodigoAnulacion(respuestaSolicitudIMM.getCodigoAnulacion());
-        //El estado puede ser Anulado o Error
-        sT.setEstadoTicket(respuestaSolicitudIMM.getEstadoTicket());
+            //TODO: Actualizar base de datos con nuevos datos codigo de anulacion, fecha anulacion y estado
+
+            sT.setCodigoAnulacion(respuestaSolicitudIMM.getCodigoAnulacion());
+            //El estado puede ser Anulado o Error
+            sT.setEstadoTicket(respuestaSolicitudIMM.getEstadoTicket());
+        } catch (NamingException e) {
+            e.printStackTrace();
+        } catch (DAOException e) {
+            e.printStackTrace();
+        }
 
         return sT;
 

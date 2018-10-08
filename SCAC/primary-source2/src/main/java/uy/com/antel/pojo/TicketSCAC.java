@@ -10,6 +10,8 @@ public class TicketSCAC extends SolicitudIMM {
 
     private Integer UserIdAnulacion;
 
+    private String numeroTicketSCAC;
+
     public String getIdTerminalAgencia() {
         return idTerminalAgencia;
     }
@@ -34,10 +36,23 @@ public class TicketSCAC extends SolicitudIMM {
         UserIdAnulacion = userIdAnulacion;
     }
 
+    public String getNumeroTicketSCAC() {
+        return numeroTicketSCAC;
+    }
+
+    public void setNumeroTicketSCAC(String numeroTicketSCAC) {
+        this.numeroTicketSCAC = numeroTicketSCAC;
+    }
+
+
     @Override
     public String toString() {
         return "TicketSCAC{" +
                 "idTerminalAgencia='" + idTerminalAgencia + '\'' +
+                ", UserIdVenta=" + UserIdVenta +
+                ", UserIdAnulacion=" + UserIdAnulacion +
+                ", numeroTicketSCAC='" + numeroTicketSCAC + '\'' +
+                ", agencia='" + agencia + '\'' +
                 ", cantidadMinutos=" + cantidadMinutos +
                 ", codigoAnulacion='" + codigoAnulacion + '\'' +
                 ", estadoTicket=" + estadoTicket +
