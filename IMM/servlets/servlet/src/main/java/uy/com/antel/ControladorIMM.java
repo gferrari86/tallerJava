@@ -23,12 +23,12 @@ public class ControladorIMM {
         return instancia;
 
     }
-    public static String GeneroTicketIMM () {
+    public static String GeneroTicketIMM (String m) {
 
         SecureRandom random = new SecureRandom();
         String text = new BigInteger(64, random).toString(16);
         //System.out.println("imm" + text);
-        return "imm"+text;
+        return m+text;
     }
     public SolicitudIMM procesarSolicitudSCAC(SolicitudIMM sScac) throws NamingException, DAOException {
 
@@ -40,9 +40,9 @@ public class ControladorIMM {
             sScac.setEstadoTicket(EstadoTicket.VENDIDO);
 
             //TODO: Generar numero de ticket
-            sScac.setNumeroTicket(GeneroTicketIMM());
+            sScac.setNumeroTicket(GeneroTicketIMM("imm"));
 
-            //TODO: Guardar en base de datos
+            //Guardo en BASE
             DAOManager guardoTicket= new DAOManager();
             guardoTicket.getTicketMysqlDAO().insertar(sScac);
 
@@ -51,11 +51,14 @@ public class ControladorIMM {
         }else if(sScac.getTipoSolicitud() == TipoSolicitud.ANULACION){
 
             //TODO: Traer ticket de base de datos
+            DAOManager obtenerTicket= new DAOManager();
+            SolicitudIMM TicketImm= obtenerTicket.getTicketMysqlDAO().obtener(sScac.getNumeroTicket());
+            
             //TODO: Chequear que el ticket lo haya vendido la agencia??
             //TODO: Chequear Hora Anulacion < Hora Inicio
             //TODO: Chequear que Estado sea Vendido
 
-            sScac.setCodigoAnulacion("codigo_anulacion_2000");
+            sScac.setCodigoAnulacion(GeneroTicketIMM("Ximm"));
 
             return sScac;
 
