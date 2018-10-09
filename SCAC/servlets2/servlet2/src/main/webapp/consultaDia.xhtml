@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+    <meta http-equiv="Context-Type" content="text/html ; charset-UTF-8"/>
+    <title>Consulta por día</title>
+</h:head>
+
+<h:body>
+    <h:form>
+        <h:inputText id = "dateInput" value = "#{consultaDiaBean.date}"
+                     label = "Date" >
+            <f:convertDateTime pattern = "dd-mm-yyyy" />
+        </h:inputText>
+        <h:commandButton type="submit" action="#{consultaDiaBean.consultaFecha}" value="Ingresar"/>
+
+    </h:form>
+    <br/>
+    <h:message for = "dateInput" style = "color:red" />
+
+    <h:outputText value = "Listado por fecha" >
+        <f:convertDateTime pattern = "dd-mm-yyyy" />
+    </h:outputText>
+
+    <h:dataTable value="#{consultaDiaBean.ticketsDia}" var="ticket">
+        <h:column>
+            <f:facet name="header">Numero</f:facet>
+            #{ticket.numeroTicketSCAC}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Fecha</f:facet>
+            #{ticket.fechaHoraVenta}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Monto</f:facet>
+            #{ticket.monto}
+        </h:column>
+
+
+    </h:dataTable>
+
+
+</h:body>
+</html>
