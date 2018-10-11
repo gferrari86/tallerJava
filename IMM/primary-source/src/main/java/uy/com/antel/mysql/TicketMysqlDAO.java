@@ -65,10 +65,10 @@ public class TicketMysqlDAO implements ITicketDAO {
         String matricula = rs.getString("Matricula");
         t.setMatriculaVehiculo(matricula);
 
-        Date fechaInicioEstacionamiento = rs.getDate("FechaInicioEstacionamiento");
+        Date fechaInicioEstacionamiento = (Date)rs.getObject("FechaInicioEstacionamiento");
         t.setFechaInicioEstacionamiento(fechaInicioEstacionamiento);
 
-        Date fechaVenta = rs.getDate("FechaHoraVenta");
+        Date fechaVenta = (Date) rs.getObject("FechaHoraVenta");
         t.setFechaHoraVenta(fechaVenta);
 
 
