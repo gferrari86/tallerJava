@@ -122,12 +122,12 @@ public class TicketDaoMysqlScac implements ITicketDAO {
 
             //pasar xmlgregoriancalendar >> date.java.util >> date.sql.date
             Date dateFIE=xmlGregorianCalendarToDate(a.getFechaInicioEstacionamiento(), TimeZone.getTimeZone("GMT-3:00"));
-            java.sql.Date sqlDateFIE = new java.sql.Date(dateFIE.getTime());
-            orden.setDate(4, sqlDateFIE);
+            //java.sql.Date sqlDateFIE = new java.sql.Date(dateFIE.getTime());
+            orden.setObject(4, dateFIE);
 
             Date dateFHV=xmlGregorianCalendarToDate(a.getFechaHoraVenta(), TimeZone.getTimeZone("GMT-3:00"));
-            java.sql.Date sqlDateFHV = new java.sql.Date(dateFHV.getTime());
-            orden.setDate(5,sqlDateFHV);
+            //java.sql.Date sqlDateFHV = new java.sql.Date(dateFHV.getTime());
+            orden.setObject(5,dateFHV);
 
             orden.setInt(6,a.getCantidadMinutos());
             orden.setString(7,a.getIdTerminalAgencia());
