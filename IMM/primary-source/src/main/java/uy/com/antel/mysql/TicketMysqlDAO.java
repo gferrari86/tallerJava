@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -37,7 +38,17 @@ public class TicketMysqlDAO implements ITicketDAO {
     }
 
     private static java.sql.Date convertUtilToSql(java.util.Date uDate) {
-        java.sql.Date sDate = new java.sql.Date(uDate.getTime());
+
+        java.util.Calendar cal = Calendar.getInstance();
+        cal.setTime(uDate);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        java.sql.Date sDate = new java.sql.Date(cal.getTime().getTime()); // your sql date
+
+        System.out.println("uDATE: "+uDate);
+        System.out.println("sDATE: "+sDate);
         return sDate;
     }
 
@@ -55,10 +66,10 @@ public class TicketMysqlDAO implements ITicketDAO {
         String matricula = rs.getString("Matricula");
         t.setMatriculaVehiculo(matricula);
 
-        Date fechaInicioEstacionamiento = rs.getDate("FechaInicioEstacionamiento");
+        Date fechaInicioEstacionamiento = (Date)rs.getObject("FechaInicioEstacionamiento");
         t.setFechaInicioEstacionamiento(fechaInicioEstacionamiento);
 
-        Date fechaVenta = rs.getDate("FechaHoraVenta");
+        Date fechaVenta = (Date) rs.getObject("FechaHoraVenta");
         t.setFechaHoraVenta(fechaVenta);
 
 
@@ -125,8 +136,8 @@ public class TicketMysqlDAO implements ITicketDAO {
             orden.setString(1, (String) a.getNumeroTicket());
             orden.setString(2, a.getTipoSolicitud().toString());
             orden.setString(3,a.getMatriculaVehiculo());
-            orden.setDate(4, (convertUtilToSql(a.getFechaInicioEstacionamiento())));
-            orden.setDate(5,(convertUtilToSql(a.getFechaHoraVenta())));
+            orden.setObject(4, (a.getFechaInicioEstacionamiento()));
+            orden.setObject(5,a.getFechaHoraVenta());
             orden.setInt(6,a.getCantidadMinutos());
             orden.setString(7,a.getAgencia());
             orden.setString(8,a.getEstadoTicket().toString());
