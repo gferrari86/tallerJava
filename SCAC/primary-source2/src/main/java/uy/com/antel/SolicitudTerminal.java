@@ -15,9 +15,10 @@ public class SolicitudTerminal implements Serializable{
     private String codigoAnulacion;
     private Date fechaAnulacion;
     private EstadoTicket estadoTicket = EstadoTicket.VENDIDO;
-    private final String idTerminalAgencia = "Agencia";
+    private final String idTerminalAgencia = "Sucursal 1 - Agencia 1";
     private String user;
-
+    private static final long serialVersionUID = 6529685098267757690L;
+    private TipoRespuesta tipoRespuesta;
 
     public TipoSolicitud getTipoSolicitud() {
         return tipoSolicitud;
@@ -103,14 +104,20 @@ public class SolicitudTerminal implements Serializable{
         this.estadoTicket = estadoTicket;
     }
 
-    private static final long serialVersionUID = 6529685098267757690L;
-
     public String getUser() {
         return user;
     }
 
     public void setUser(String user) {
         this.user = user;
+    }
+
+    public TipoRespuesta getTipoRespuesta() {
+        return tipoRespuesta;
+    }
+
+    public void setTipoRespuesta(TipoRespuesta tipoRespuesta) {
+        this.tipoRespuesta = tipoRespuesta;
     }
 
     @Override
@@ -127,6 +134,8 @@ public class SolicitudTerminal implements Serializable{
                 ", fechaAnulacion=" + fechaAnulacion +
                 ", estadoTicket=" + estadoTicket +
                 ", idTerminalAgencia='" + idTerminalAgencia + '\'' +
+                ", user='" + user + '\'' +
+                ", tipoRespuesta=" + tipoRespuesta +
                 '}';
     }
 }

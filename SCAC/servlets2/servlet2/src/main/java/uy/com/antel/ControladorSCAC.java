@@ -15,7 +15,12 @@ import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.SecureRandom;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
+
+import static uy.com.antel.mysql.TicketDaoMysqlScac.xmlGregorianCalendarToDate;
 
 public class ControladorSCAC {
 
@@ -105,7 +110,7 @@ public class ControladorSCAC {
             tscac.setImporteTotal(respuestaSolicitudIMM.getImporteTotal());
             tscac.setEstadoTicket(respuestaSolicitudIMM.getEstadoTicket());
 
-            // TODO: Guardar en base de datos
+            //Guarda en base de datos ticket
 
             DAOManagerScac guardo = new DAOManagerScac();
             guardo.getTicketMysqlDAO().insertar(tscac);
@@ -115,6 +120,7 @@ public class ControladorSCAC {
             sT.setNumeroTicket(respuestaSolicitudIMM.getNumeroTicket());
             sT.setFechaVenta(respuestaSolicitudIMM.getFechaHoraVenta().toGregorianCalendar().getTime());
             sT.setEstadoTicket(respuestaSolicitudIMM.getEstadoTicket());
+            sT.setTipoRespuesta(TipoRespuesta.VENTA_EXITOSA);
 
             return sT;
 
@@ -138,27 +144,75 @@ public class ControladorSCAC {
             System.out.println("Procesar Solicitud Anulacion");
 
             DAOManagerScac obtengo = new DAOManagerScac();
+
+            // Si no se encuentra ticket DAOException DAOException "No se ha encontrado registro: "
             TicketSCAC tscac2 = obtengo.getTicketMysqlDAO().obtener(sT.getNumeroTicket());
 
-            System.out.println("Ticket Obtenido en SCAC para Anular");
-            System.out.println(tscac2.toString());
+            if(tscac2 == null){
 
-            //TODO:Buscar ticket en base de datos
-            //TODO:Chequear que exista y que estado sea vendido
-            //TODO:Chequear Hora Anulacion < Hora Inicio
+                System.out.println("No obtengo Ticket. Puntero Nulo");
+                sT.setTipoRespuesta(TipoRespuesta.ERROR_ANULACION_NO_EXISTE);
+            } else {
 
-            //Recupero ticket a Anular y se lo paso a IMM
-            TicketSCAC tscac = new TicketSCAC();
-            tscac.setNumeroTicket(sT.getNumeroTicket());
-            //Le indico a IMM que lo quiero anular
-            tscac.setEstadoTicket(EstadoTicket.ANULADO);
-            SolicitudIMM respuestaSolicitudIMM = enviarSolicitudImmWS(tscac);
+                System.out.println("Ticket Obtenido en SCAC para Anular");
+                System.out.println(tscac2.toString());
 
-            //TODO: Actualizar base de datos con nuevos datos codigo de anulacion, fecha anulacion y estado
+                if (tscac2.getEstadoTicket() != EstadoTicket.VENDIDO){
 
-            sT.setCodigoAnulacion(respuestaSolicitudIMM.getCodigoAnulacion());
-            //El estado puede ser Anulado o Error
-            sT.setEstadoTicket(respuestaSolicitudIMM.getEstadoTicket());
+                    System.out.println("No se puede anular: Estado del Ticket no es vendido");
+                    sT.setTipoRespuesta(TipoRespuesta.ERROR_ANULACION_YA_ANULADO);
+
+                } else {
+
+                    Calendar fechaActual = Calendar.getInstance();
+
+                    Date dateInicioEstacionamiento=xmlGregorianCalendarToDate(tscac2.getFechaInicioEstacionamiento(), TimeZone.getTimeZone("GMT-3:00"));
+
+                    Calendar fechaInicioEstacionamiento = Calendar.getInstance();
+                    fechaInicioEstacionamiento.setTime(dateInicioEstacionamiento);
+
+                    System.out.println("fechaActual");
+                    System.out.println(fechaActual);
+
+                    System.out.println("fechaInicioEstacionamiento");
+                    System.out.println(fechaInicioEstacionamiento);
+
+                    if ( fechaActual.compareTo(fechaInicioEstacionamiento) > 0 ){
+
+                        System.out.println("No se puede anular: fecha ya paso");
+                        sT.setTipoRespuesta(TipoRespuesta.ERROR_ANULACION_FECHA);
+
+
+                    } else {
+
+                        //Le indico a IMM que lo quiero anular
+                        tscac2.setTipoSolicitud(TipoSolicitud.ANULACION);
+                        SolicitudIMM respuestaSolicitudIMM = enviarSolicitudImmWS(tscac2);
+
+                        if(respuestaSolicitudIMM.getEstadoTicket() == EstadoTicket.ERROR){
+                            sT.setTipoRespuesta(TipoRespuesta.ERROR_ANULACION_GRAL);
+                        } else {
+
+                            tscac2.setCodigoAnulacion(respuestaSolicitudIMM.getCodigoAnulacion());
+                            tscac2.setEstadoTicket(respuestaSolicitudIMM.getEstadoTicket());
+
+                            DAOManagerScac actualizoTicket = new DAOManagerScac();
+                            actualizoTicket.getTicketMysqlDAO().modificar(tscac2);
+
+                            sT.setCodigoAnulacion(respuestaSolicitudIMM.getCodigoAnulacion());
+                            //El estado puede ser Anulado o Error
+                            sT.setEstadoTicket(respuestaSolicitudIMM.getEstadoTicket());
+                            sT.setTipoRespuesta(TipoRespuesta.ANULACION_EXITOSA);
+                        }
+
+
+                    }
+
+                }
+
+            }
+
+
         } catch (NamingException e) {
             e.printStackTrace();
         } catch (DAOException e) {

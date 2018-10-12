@@ -20,10 +20,11 @@ import java.util.List;
 
 public class TicketMysqlDAO implements ITicketDAO {
     final String INSERT = "INSERT INTO TTicketImm (NumeroTicketImm,TipoSolicitud,Matricula,FechaInicioEstacionamiento,FechaHoraVenta,CantidadMinutos,Agencia,EstadoTicket,Monto) values (?,?,?,?,?,?,?,?,?)";
-    final String UPDATE = "UPDATE TEditoriales SET Nombre = ? WHERE EditorialId = ?";
+    //final String UPDATE = "UPDATE TTicketImm SET EstadoTicket = ?, CodigoAnulacion = ?, FechaAnulacion = ?  WHERE NumeroTicketImm = ?";
+    final String UPDATE = "UPDATE TTicketImm SET EstadoTicket = ? WHERE NumeroTicketImm = ?";
     final String DELETE = "DELETE FROM TEditoriales where EditorialId = ?";
     final String GETALL = "SELECT EditorialId, Nombre FROM TEditoriales";
-    final String GETONE = "SELECT Nombre FROM TTicketImm WHERE  NumeroTicketImm = ?";
+    final String GETONE = "SELECT * FROM TTicketImm WHERE  NumeroTicketImm = ?";
     //SELECT Nombre FROM Editorial.TEditoriales where Nombre='Edit1';
     final String GETTHISID = "SELECT EditorialId FROM TEditoriales WHERE Nombre= ?";
 
@@ -77,7 +78,45 @@ public class TicketMysqlDAO implements ITicketDAO {
         return t;
     }
 
-    public void insertar(SolicitudIMM a) throws DAOException, NamingException {
+    public void modificar(SolicitudIMM a) throws DAOException {
+
+        PreparedStatement orden = null;
+        Connection ps = null;
+        try {
+            ps = ds.getConnection();
+            System.out.println("Por correr UPDATE");
+            //TODO: No me funciona el UPDATE de varias columnas
+            orden = ps.prepareStatement(UPDATE);
+            orden.setString(1,a.getEstadoTicket().toString());
+            //orden.setString(2, a.getCodigoAnulacion());
+            //orden.setDate(3, (convertUtilToSql(a.getFechaHoraAnulacion())));
+            orden.setString(2, (String)a.getNumeroTicket());
+
+
+            if (orden.executeUpdate() == 0) {
+                throw new DAOException("no se guardo dato " );
+            }
+            ;
+
+        } catch (SQLException ex) {
+            throw new DAOException("error sql", ex);
+        } finally {
+            if (orden != null) {
+                try {
+                    orden.close();
+                } catch (SQLException ex) {
+                    throw new DAOException("error cierre", ex);
+                }
+            }
+
+
+        }
+
+    }
+
+    public void insertar(SolicitudIMM a) throws DAOException {
+
+
         PreparedStatement orden = null;
         Connection ps = null;
         try {
@@ -111,10 +150,6 @@ public class TicketMysqlDAO implements ITicketDAO {
 
 
         }
-
-    }
-
-    public void modificar(SolicitudIMM a) throws DAOException {
 
     }
 

@@ -21,7 +21,8 @@ import java.util.TimeZone;
 public class TicketDaoMysqlScac implements ITicketDAO {
     //Primer recibe pedido
     final String INSERT = "INSERT INTO TTicketScac (NumeroTicketSCAC,TipoSolicitud,Matricula,FechaInicioEstacionamiento,FechaHoraVenta,CantidadMinutos,IdTerminal,EstadoTicket,Monto,CodigoAnulacion,UserIdVenta,UserIdAnulacion,NumeroTicketImm) values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
-    final String UPDATE = "UPDATE TEditoriales SET Nombre = ? WHERE EditorialId = ?";
+    //final String UPDATE = "UPDATE TTicketScac SET EstadoTicket = ?, CodigoAnulacion = ?  WHERE NumeroTicketImm = ?";
+    final String UPDATE = "UPDATE TTicketScac SET EstadoTicket = ?  WHERE NumeroTicketImm = ?";
     final String DELETE = "DELETE FROM TEditoriales where EditorialId = ?";
     final String GETALL = "SELECT EditorialId, Nombre FROM TEditoriales";
     final String GETONE = "SELECT * FROM TTicketScac WHERE  NumeroTicketImm = ?";
@@ -139,6 +140,42 @@ public class TicketDaoMysqlScac implements ITicketDAO {
             orden.setString(13,a.getNumeroTicket());
 
             if (orden.executeUpdate() == 0) {
+                System.out.println("orden.executeUpdate() == 0)");
+                throw new DAOException("no se guardo dato " );
+            }
+            ;
+
+        } catch (SQLException ex) {
+            System.out.println("error sql" + ex);
+            throw new DAOException("error sql", ex);
+        } finally {
+            if (orden != null) {
+                try {
+                    orden.close();
+                } catch (SQLException ex) {
+                    System.out.println("error cierre" + ex);
+                    throw new DAOException("error cierre", ex);
+                }
+            }
+
+
+        }
+
+    }
+
+    public void modificar(TicketSCAC a) throws DAOException {
+
+        PreparedStatement orden = null;
+        Connection ps = null;
+        try {
+            ps = ds.getConnection();
+            orden = ps.prepareStatement(UPDATE);
+            orden.setString(1,a.getEstadoTicket().toString());
+            //TODO: No me funciona el UPDATE de varias columnas
+            //orden.setString(2,a.getCodigoAnulacion());
+            orden.setString(2,a.getNumeroTicket());
+
+            if (orden.executeUpdate() == 0) {
                 throw new DAOException("no se guardo dato " );
             }
             ;
@@ -157,9 +194,8 @@ public class TicketDaoMysqlScac implements ITicketDAO {
 
         }
 
-    }
 
-    public void modificar(TicketSCAC a) throws DAOException {
+
 
     }
 

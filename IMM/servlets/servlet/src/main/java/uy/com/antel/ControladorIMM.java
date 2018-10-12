@@ -9,6 +9,9 @@ import uy.com.antel.pojo.TipoSolicitud;
 import javax.naming.NamingException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class ControladorIMM {
 
@@ -32,41 +35,87 @@ public class ControladorIMM {
     }
     public SolicitudIMM procesarSolicitudSCAC(SolicitudIMM sScac) throws NamingException, DAOException {
 
-        if(sScac.getTipoSolicitud() == TipoSolicitud.VENTA){
+        if (sScac.getTipoSolicitud() == TipoSolicitud.VENTA) {
 
-            //TODO: Calcular importe
+            System.out.println("Procesando en IMM venta de Ticket");
 
-            sScac.setImporteTotal(123);
+            sScac.setImporteTotal(calcularImporteTicket(sScac.getCantidadMinutos()));
             sScac.setEstadoTicket(EstadoTicket.VENDIDO);
 
-            //TODO: Generar numero de ticket
             sScac.setNumeroTicket(GeneroTicketIMM("imm"));
 
-            //Guardo en BASE
-            DAOManager guardoTicket= new DAOManager();
+            //Guarda en BASE
+            DAOManager guardoTicket = new DAOManager();
             guardoTicket.getTicketMysqlDAO().insertar(sScac);
 
-            return sScac;
+            System.out.println("Ticket IMM guardado en Base");
 
-        }else if(sScac.getTipoSolicitud() == TipoSolicitud.ANULACION){
 
-            //TODO: Traer ticket de base de datos
-            DAOManager obtenerTicket= new DAOManager();
-            SolicitudIMM TicketImm= obtenerTicket.getTicketMysqlDAO().obtener(sScac.getNumeroTicket());
-            
-            //TODO: Chequear que el ticket lo haya vendido la agencia??
-            //TODO: Chequear Hora Anulacion < Hora Inicio
-            //TODO: Chequear que Estado sea Vendido
+        } else if (sScac.getTipoSolicitud() == TipoSolicitud.ANULACION) {
 
-            sScac.setCodigoAnulacion(GeneroTicketIMM("Ximm"));
+            DAOManager obtenerTicket = new DAOManager();
+            SolicitudIMM TicketImm = obtenerTicket.getTicketMysqlDAO().obtener(sScac.getNumeroTicket());
 
-            return sScac;
+            if (TicketImm == null) {
+
+                System.out.println("IMM: No obtengo Ticket. Puntero Nulo");
+                sScac.setEstadoTicket(EstadoTicket.ERROR);
+            } else {
+
+                System.out.println("IMM: Ticket Obtenido en IMM para Anular");
+                System.out.println(TicketImm.toString());
+
+                if (TicketImm.getEstadoTicket() != EstadoTicket.VENDIDO) {
+
+                    System.out.println("IMM: No se puede anular: Estado del Ticket no es vendido");
+                    sScac.setEstadoTicket(EstadoTicket.ERROR);
+
+                } else {
+
+                    Calendar fechaActual = Calendar.getInstance();
+
+                    Calendar fechaInicioEstacionamiento = Calendar.getInstance();
+                    fechaInicioEstacionamiento.setTime(TicketImm.getFechaInicioEstacionamiento());
+
+                    System.out.println("IMM: fechaActual");
+                    System.out.println(fechaActual);
+
+                    System.out.println("IMM: fechaInicioEstacionamiento");
+                    System.out.println(fechaInicioEstacionamiento);
+
+                    if (fechaActual.compareTo(fechaInicioEstacionamiento) > 0) {
+
+                        System.out.println("IMM: No se puede anular: fecha ya paso");
+                        sScac.setEstadoTicket(EstadoTicket.ERROR);
+
+
+                    } else {
+
+                        //Le indico a IMM que lo quiero anular
+                        sScac.setEstadoTicket(EstadoTicket.ANULADO);
+                        sScac.setCodigoAnulacion(GeneroTicketIMM("Ximm"));
+                        sScac.setFechaHoraAnulacion(new Date());
+
+                        //Se actualiza base de datos con Estado, codigo de anlacion y fecha de anulación
+                        DAOManager actualizoTicket = new DAOManager();
+                        actualizoTicket.getTicketMysqlDAO().modificar(sScac);
+
+
+                    }
+                }
+
+
+            }
+
 
         }
 
+        return sScac;
+    }
 
+    private float calcularImporteTicket( int cantidadMinutos){
 
-        return null;
+        return cantidadMinutos * 2;
 
     }
 

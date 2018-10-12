@@ -85,9 +85,8 @@ public class IAdminSolicitudImp implements IAdminSolicitud{
 
     private void procesarRespuesta(SolicitudTerminal respuestaSolicitudTerminal){
 
-        if (respuestaSolicitudTerminal.getTipoSolicitud() == TipoSolicitud.VENTA){
+        if (respuestaSolicitudTerminal.getTipoRespuesta() == TipoRespuesta.VENTA_EXITOSA){
 
-            if(respuestaSolicitudTerminal.getEstadoTicket() == EstadoTicket.VENDIDO){
 
                 System.out.println("------------------------------------------------");
                 System.out.println("VENTA EXITOSA");
@@ -96,12 +95,9 @@ public class IAdminSolicitudImp implements IAdminSolicitud{
                 System.out.println("Hora de venta " + respuestaSolicitudTerminal.getFechaVenta());
                 System.out.println("------------------------------------------------");
 
-            }
 
 
-        } else if (respuestaSolicitudTerminal.getTipoSolicitud() == TipoSolicitud.ANULACION){
-
-            if(respuestaSolicitudTerminal.getEstadoTicket() == EstadoTicket.ANULADO) {
+        } else if (respuestaSolicitudTerminal.getTipoRespuesta() == TipoRespuesta.ANULACION_EXITOSA){
 
                 System.out.println("------------------------------------------------");
                 System.out.println("Anulacion EXITOSA");
@@ -109,10 +105,36 @@ public class IAdminSolicitudImp implements IAdminSolicitud{
                 System.out.println("Codigo de Anulacion " + respuestaSolicitudTerminal.getCodigoAnulacion());
                 System.out.println("------------------------------------------------");
 
-            }
+
+        } else if (respuestaSolicitudTerminal.getTipoRespuesta() == TipoRespuesta.ERROR_ANULACION_FECHA ){
+
+            System.out.println("------------------------------------------------");
+            System.out.println("ERROR de Anulacion ");
+            System.out.println("No se puede Anular Ticket porque su fecha de incio ya paso");
+            System.out.println("------------------------------------------------");
 
 
-        }
+        } else if (respuestaSolicitudTerminal.getTipoRespuesta() == TipoRespuesta.ERROR_ANULACION_NO_EXISTE ){
+
+            System.out.println("------------------------------------------------");
+            System.out.println("ERROR de Anulacion ");
+            System.out.println("Ticket inexistente o vendido en otra Agencia");
+            System.out.println("------------------------------------------------");
+
+        } else if (respuestaSolicitudTerminal.getTipoRespuesta() == TipoRespuesta.ERROR_ANULACION_YA_ANULADO ){
+
+            System.out.println("------------------------------------------------");
+            System.out.println("ERROR de Anulacion ");
+            System.out.println("El Ticket ya figura como anulado");
+            System.out.println("------------------------------------------------");
+
+        } else if (respuestaSolicitudTerminal.getTipoRespuesta() == TipoRespuesta.ERROR_ANULACION_GRAL ){
+
+        System.out.println("------------------------------------------------");
+        System.out.println("ERROR de Anulacion ");
+        System.out.println("------------------------------------------------");
+
+    }
 
     }
 
