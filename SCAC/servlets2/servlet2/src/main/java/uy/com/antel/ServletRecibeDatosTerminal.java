@@ -11,7 +11,7 @@ public class ServletRecibeDatosTerminal extends HttpServlet {
     public void init() throws ServletException {
 
         System.out.println("Inicia ServletRecibeDatosTerminal");
-        Thread t = new Thread(new HiloRecibeDatosTerminal());
+        Thread t = new Thread(new HiloConexionTerminal());
         t.start();
 
         super.init();
