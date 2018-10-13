@@ -21,8 +21,7 @@ import java.util.List;
 
 public class TicketMysqlDAO implements ITicketDAO {
     final String INSERT = "INSERT INTO TTicketImm (NumeroTicketImm,TipoSolicitud,Matricula,FechaInicioEstacionamiento,FechaHoraVenta,CantidadMinutos,Agencia,EstadoTicket,Monto) values (?,?,?,?,?,?,?,?,?)";
-    //final String UPDATE = "UPDATE TTicketImm SET EstadoTicket = ?, CodigoAnulacion = ?, FechaAnulacion = ?  WHERE NumeroTicketImm = ?";
-    final String UPDATE = "UPDATE TTicketImm SET EstadoTicket = ? WHERE NumeroTicketImm = ?";
+    final String UPDATE = "UPDATE TTicketImm SET EstadoTicket = ?, CodigoAnulacion = ?, FechaAnulacion = ?  WHERE NumeroTicketImm = ?";
     final String DELETE = "DELETE FROM TEditoriales where EditorialId = ?";
     final String GETALL = "SELECT EditorialId, Nombre FROM TEditoriales";
     final String GETONE = "SELECT * FROM TTicketImm WHERE  NumeroTicketImm = ?";
@@ -96,13 +95,11 @@ public class TicketMysqlDAO implements ITicketDAO {
         try {
             ps = ds.getConnection();
             System.out.println("Por correr UPDATE");
-            //TODO: No me funciona el UPDATE de varias columnas
             orden = ps.prepareStatement(UPDATE);
             orden.setString(1,a.getEstadoTicket().toString());
-            //orden.setString(2, a.getCodigoAnulacion());
-            //orden.setDate(3, (convertUtilToSql(a.getFechaHoraAnulacion())));
-            orden.setString(2, (String)a.getNumeroTicket());
-
+            orden.setString(2, a.getCodigoAnulacion());
+            orden.setObject(3, a.getFechaHoraAnulacion());
+            orden.setString(4, (String)a.getNumeroTicket());
 
             if (orden.executeUpdate() == 0) {
                 throw new DAOException("no se guardo dato " );

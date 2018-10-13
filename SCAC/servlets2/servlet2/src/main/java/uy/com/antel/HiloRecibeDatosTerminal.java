@@ -10,43 +10,45 @@ public class HiloRecibeDatosTerminal implements Runnable {
 
     public void run() {
 
-        try {
-            System.out.println("Comienza lectura Servidor");
-            ServerSocket socket = new ServerSocket(65000);
-            Socket socketRecepcion = socket.accept();
+        while (true) {
 
-            ObjectInputStream objectSerial = new ObjectInputStream(socketRecepcion.getInputStream());
+            try {
+                System.out.println("Comienza lectura Servidor");
+                ServerSocket socket = new ServerSocket(65000);
+                Socket socketRecepcion = socket.accept();
 
-            //Recibo s objeto desde la terminal
-            SolicitudTerminal s = (SolicitudTerminal) objectSerial.readObject();
+                ObjectInputStream objectSerial = new ObjectInputStream(socketRecepcion.getInputStream());
 
-
-
-            ControladorSCAC controladorSCAC = ControladorSCAC.getInstancia();
-            SolicitudTerminal respuestaSolicitudTerminal = controladorSCAC.procesarSolicitudTerminal(s);
-
-            System.out.println("ENVIANDO RESPUESTA A TERMINAL");
-            System.out.println(respuestaSolicitudTerminal.toString());
-
-            ObjectOutputStream objetoSerial2 = new ObjectOutputStream(socketRecepcion.getOutputStream());
-            objetoSerial2.writeObject(respuestaSolicitudTerminal);
+                //Recibo s objeto desde la terminal
+                SolicitudTerminal s = (SolicitudTerminal) objectSerial.readObject();
 
 
-            objectSerial.close();
-            objetoSerial2.flush();
-            objetoSerial2.close();
-            socketRecepcion.close();
-            socket.close();
+                ControladorSCAC controladorSCAC = ControladorSCAC.getInstancia();
+                SolicitudTerminal respuestaSolicitudTerminal = controladorSCAC.procesarSolicitudTerminal(s);
 
-            System.out.println(s.getMatriculaVehiculo());
+                System.out.println("ENVIANDO RESPUESTA A TERMINAL");
+                System.out.println(respuestaSolicitudTerminal.toString());
+
+                ObjectOutputStream objetoSerial2 = new ObjectOutputStream(socketRecepcion.getOutputStream());
+                objetoSerial2.writeObject(respuestaSolicitudTerminal);
 
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+                objectSerial.close();
+                objetoSerial2.flush();
+                objetoSerial2.close();
+                socketRecepcion.close();
+                socket.close();
+
+                System.out.println(s.getMatriculaVehiculo());
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
         }
-
     }
 
 }
