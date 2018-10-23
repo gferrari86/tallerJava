@@ -69,6 +69,7 @@ public class ControladorSCAC {
         System.out.println("Procesar Solicitud Venta");
 
         try {
+
             TicketSCAC tscac = new TicketSCAC();
             tscac.setTipoSolicitud(sT.getTipoSolicitud());
             tscac.setMatriculaVehiculo(sT.getMatriculaVehiculo());

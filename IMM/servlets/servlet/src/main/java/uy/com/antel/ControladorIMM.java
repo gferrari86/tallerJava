@@ -96,7 +96,7 @@ public class ControladorIMM {
                         sScac.setCodigoAnulacion(GeneroTicketIMM("Ximm"));
                         sScac.setFechaHoraAnulacion(new Date());
 
-                        //Se actualiza base de datos con Estado, codigo de anlacion y fecha de anulación
+                        //Se actualiza base de datos con Estado, codigo de anulacion y fecha de anulacion
                         DAOManager actualizoTicket = new DAOManager();
                         actualizoTicket.getTicketMysqlDAO().modificar(sScac);
 
@@ -118,6 +118,7 @@ public class ControladorIMM {
         return cantidadMinutos * 2;
 
     }
+
 
 
 }

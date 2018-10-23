@@ -79,7 +79,8 @@ public class TicketDaoMysqlScac implements ITicketDAO {
         t.setFechaInicioEstacionamiento(XMLGregCalFIE);
 
 
-        Date fechaVenta = rs.getDate("FechaHoraVenta");
+        Date fechaVenta = (Date) rs.getObject("FechaHoraVenta");
+        System.out.println("holasssss"+ fechaVenta);
         XMLGregorianCalendar XMLGregCalFV=dateToXMLGregorianCalendar(fechaVenta,timezone);
         t.setFechaHoraVenta(XMLGregCalFV);
 

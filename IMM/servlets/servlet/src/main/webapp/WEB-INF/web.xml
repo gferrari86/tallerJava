@@ -2,15 +2,27 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
 
 
+
+
     <servlet>
         <servlet-name>ImmWsImp</servlet-name>
         <servlet-class>uy.com.antel.ImmWsImp</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>IMM</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>ImmWsImp</servlet-name>
         <url-pattern>/sv</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>IMM</servlet-name>
+        <url-pattern>/imm/*</url-pattern>
+    </servlet-mapping>
 
-
-
+    <welcome-file-list>
+        <welcome-file>/imm/index.xhtml</welcome-file>
+    </welcome-file-list>
 </web-app>

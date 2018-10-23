@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -27,6 +28,7 @@ public class TicketMysqlDAO implements ITicketDAO {
     final String GETONE = "SELECT * FROM TTicketImm WHERE  NumeroTicketImm = ?";
     //SELECT Nombre FROM Editorial.TEditoriales where Nombre='Edit1';
     final String GETTHISID = "SELECT EditorialId FROM TEditoriales WHERE Nombre= ?";
+    final String GETVENDIDOBETWEENDATES="SELECT * from `DBIMM`.`TTicketImm`  where `EstadoTicket` = 'VENDIDO' and (`FechaHoraVenta` between ? and ?)";
 
     DataSource ds;
 
@@ -204,6 +206,35 @@ public class TicketMysqlDAO implements ITicketDAO {
 
             return e;
         }
+    }
+
+    public List<SolicitudIMM> obtenerTicketsVendidos(Date fecha1, Date fecha2) throws DAOException, NamingException {
+
+        List<SolicitudIMM> listaTicketEntreFechas =new ArrayList<SolicitudIMM>();
+        PreparedStatement orden = null;
+        ResultSet rs = null;
+        Connection ps;
+        java.sql.Date SQLfecha1=convertUtilToSql(fecha1);
+        java.sql.Date SQLfecha2=convertUtilToSql(fecha2);
+        float total=0;
+        try{
+            ps = ds.getConnection();
+            orden = ps.prepareStatement(GETVENDIDOBETWEENDATES);
+            orden.setDate(1, SQLfecha1);
+            orden.setDate(2,SQLfecha2);
+            rs = orden.executeQuery();
+
+            while (rs.next()) {
+                listaTicketEntreFechas.add(convertirTicket(rs));
+            }
+            return listaTicketEntreFechas;
+
+        }catch (SQLException e){
+            throw new DAOException(e.toString());
+        }
+
+
+
     }
 
 

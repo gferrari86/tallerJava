@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.List;
 
 @ManagedBean
-@SessionScoped
 public class consultaDiaBean implements Serializable {
 
     public Date date;
