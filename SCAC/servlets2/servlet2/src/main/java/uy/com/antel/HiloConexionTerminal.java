@@ -1,5 +1,8 @@
 package uy.com.antel;
 
+import uy.com.antel.mysql.DAOException;
+
+import javax.naming.NamingException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -25,6 +28,8 @@ public class HiloConexionTerminal implements Runnable {
 
 
             } catch (IOException e) {
+                e.printStackTrace();
+            } catch (NamingException e){
                 e.printStackTrace();
             }
 

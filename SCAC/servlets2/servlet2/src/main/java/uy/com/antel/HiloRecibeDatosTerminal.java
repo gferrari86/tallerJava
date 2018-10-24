@@ -1,5 +1,8 @@
 package uy.com.antel;
 
+import uy.com.antel.mysql.DAOException;
+
+import javax.naming.NamingException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -11,7 +14,7 @@ public class HiloRecibeDatosTerminal implements Runnable {
 
     protected Socket socketRecepcion;
 
-    public HiloRecibeDatosTerminal(Socket clientSocket){
+    public HiloRecibeDatosTerminal(Socket clientSocket) throws NamingException {
 
         this.socketRecepcion = clientSocket;
 
@@ -53,6 +56,10 @@ public class HiloRecibeDatosTerminal implements Runnable {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
+        } catch (NamingException e) {
+            e.printStackTrace();
+        }catch (DAOException e){
+
         }
 
 

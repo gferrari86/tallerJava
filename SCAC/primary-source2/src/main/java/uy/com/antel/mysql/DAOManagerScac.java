@@ -13,6 +13,7 @@ package uy.com.antel.mysql;
 public class DAOManagerScac implements IDAOManagerScac {
 
     private TicketDaoMysqlScac ticketDao=null;
+    private UsuariosTerminalesSCAC usuarioDao=null;
     private Context contexto;
     private DataSource ds;
 
@@ -26,6 +27,13 @@ public class DAOManagerScac implements IDAOManagerScac {
             ticketDao=new TicketDaoMysqlScac(ds);
         }
         return ticketDao;
+    }
+
+    public UsuariosTerminalesSCAC getUsuarioTMysqlDAO() throws NamingException {
+        if (usuarioDao==null){
+            usuarioDao=new UsuariosTerminalesSCAC(ds);
+        }
+        return usuarioDao;
     }
 
 

@@ -4,6 +4,7 @@ package uy.com.antel;
 import uy.com.antel.mysql.DAOException;
 import uy.com.antel.mysql.DAOManagerScac;
 import uy.com.antel.pojo.TicketSCAC;
+import uy.com.antel.pojo.UsuarioTerminal;
 
 import javax.naming.NamingException;
 import javax.xml.bind.DatatypeConverter;
@@ -49,15 +50,19 @@ public class ControladorSCAC {
         return "scac"+text;
     }
 
-    public SolicitudTerminal procesarSolicitudTerminal(SolicitudTerminal sT) {
+    public SolicitudTerminal procesarSolicitudTerminal(SolicitudTerminal sT) throws NamingException, DAOException {
 
         SolicitudTerminal respuestaSolicitudTerminal = null;
 
         //obtengo pass user
-        String pass = "Pass1";
+        DAOManagerScac consultaDB= new DAOManagerScac();
         String user = sT.getUser();
+        UsuarioTerminal userDB= consultaDB.getUsuarioTMysqlDAO().obtener(user);
+
+        //String pass = "Pass1";
+
         try {
-            String myHash = CreaHash(user, pass);
+            String myHash = CreaHash(user, userDB.getPass());
 
             if (myHash.equals(sT.getHash())) {
                 if (sT.getTipoSolicitud() == TipoSolicitud.VENTA) {
