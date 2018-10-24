@@ -19,8 +19,6 @@ public class HiloRecibeDatosTerminal implements Runnable {
 
     public void run() {
 
-
-
         try {
 
             ObjectInputStream objectSerial = new ObjectInputStream(socketRecepcion.getInputStream());
@@ -29,7 +27,7 @@ public class HiloRecibeDatosTerminal implements Runnable {
             SolicitudTerminal s = (SolicitudTerminal) objectSerial.readObject();
 
             //Codigo que agrega delay para probar sesiones concurrentes de Terminal
-            TimeUnit.SECONDS.sleep(30);
+            TimeUnit.SECONDS.sleep(1);
 
             ControladorSCAC controladorSCAC = ControladorSCAC.getInstancia();
             SolicitudTerminal respuestaSolicitudTerminal = controladorSCAC.procesarSolicitudTerminal(s);

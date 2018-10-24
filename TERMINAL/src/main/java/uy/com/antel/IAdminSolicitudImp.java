@@ -135,6 +135,12 @@ public class IAdminSolicitudImp implements IAdminSolicitud{
         System.out.println("------------------------------------------------");
 
     }
+    else if (respuestaSolicitudTerminal.getTipoRespuesta() == TipoRespuesta.ERROR_AUTENTICACION_TERMINAL){
+            System.out.println("-------------------------------------------------");
+            System.out.println("ERROR de Autenticacion de Terminal.");
+            System.out.println("Para el usuario: "+respuestaSolicitudTerminal.getUser());
+            System.out.println("-------------------------------------------------");
+        }
 
     }
 

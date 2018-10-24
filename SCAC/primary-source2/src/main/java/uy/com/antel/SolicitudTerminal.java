@@ -17,7 +17,7 @@ public class SolicitudTerminal implements Serializable{
     private EstadoTicket estadoTicket = EstadoTicket.VENDIDO;
     private final String idTerminalAgencia = "Sucursal 1 - Agencia 1";
     private String user;
-    private String pass;
+    private String hash;
     private static final long serialVersionUID = 6529685098267757690L;
     private TipoRespuesta tipoRespuesta;
 
@@ -121,12 +121,12 @@ public class SolicitudTerminal implements Serializable{
         this.tipoRespuesta = tipoRespuesta;
     }
 
-    public String getPass() {
-        return pass;
+    public String getHash() {
+        return hash;
     }
 
-    public void setPass(String pass) {
-        this.pass = pass;
+    public void setHash(String hash) {
+        this.hash = hash;
     }
 
     @Override

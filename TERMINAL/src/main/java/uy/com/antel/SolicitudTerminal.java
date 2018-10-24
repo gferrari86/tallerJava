@@ -17,6 +17,7 @@ public class SolicitudTerminal implements Serializable{
     private EstadoTicket estadoTicket = EstadoTicket.VENDIDO;
     private final String idTerminalAgencia = "Sucursal 1 - Agencia 1";
     private String user;
+    private String hash;
     private static final long serialVersionUID = 6529685098267757690L;
     private TipoRespuesta tipoRespuesta;
 
@@ -118,6 +119,14 @@ public class SolicitudTerminal implements Serializable{
 
     public void setTipoRespuesta(TipoRespuesta tipoRespuesta) {
         this.tipoRespuesta = tipoRespuesta;
+    }
+
+    public String getHash() {
+        return hash;
+    }
+
+    public void setHash(String hash) {
+        this.hash = hash;
     }
 
     @Override

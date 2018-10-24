@@ -1,8 +1,11 @@
 package uy.com.antel;
 
+import javax.xml.bind.DatatypeConverter;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -22,6 +25,10 @@ public class App
         IAdminSolicitud adminSolicitud = IAdminSolicitudImp.getInstancia();
 
         String comando = null;
+        String user= "User1";
+        String pass= "Pass12";
+        String hashEnviado;
+
 
         do{
 
@@ -30,6 +37,8 @@ public class App
                 comando = entrada.readLine();
                 String[] tokens = comando.split("\\s");
                 comando = tokens[0];
+
+
                 switch (comando){
                     case "h":
                     case "H":{
@@ -53,6 +62,12 @@ public class App
                             Date fechaInicioEstacionamiento = sdf.parse(tokens[2]);
                             nuevaSolicitud.setFechaInicioEstacionamiento(fechaInicioEstacionamiento);
                             nuevaSolicitud.setCantidadMinutos(Integer.parseInt(tokens[3]));
+                            nuevaSolicitud.setUser(user);
+                            try {
+                                hashEnviado = CreaHash(user, pass);
+                                nuevaSolicitud.setHash(hashEnviado);
+                            }catch (Exception e){System.out.println(e.toString());}
+
                             adminSolicitud.enviarSolicitud(nuevaSolicitud);
 
                         } catch (ParseException e) {
@@ -66,7 +81,14 @@ public class App
                         SolicitudTerminal nuevaSolicitud = new SolicitudTerminal();
                         nuevaSolicitud.setTipoSolicitud(TipoSolicitud.ANULACION);
                         nuevaSolicitud.setNumeroTicket(tokens[1]);
+                        nuevaSolicitud.setUser(user);
+                        try {
+                            hashEnviado = CreaHash(user, pass);
+                            nuevaSolicitud.setHash(hashEnviado);
+                        }catch (Exception e){System.out.println(e.toString());}
+
                         adminSolicitud.enviarSolicitud(nuevaSolicitud);
+
                         break;
                     }
                     case "q":
@@ -92,5 +114,15 @@ public class App
 
 
         }while(!comando.equalsIgnoreCase("Q"));
+
+
+
+    }
+    public static String CreaHash(String u, String p) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update((u+p).getBytes());
+        byte[] digest = md.digest();
+        String myHash = DatatypeConverter.printHexBinary(digest).toUpperCase();
+        return myHash;
     }
 }

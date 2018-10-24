@@ -6,6 +6,7 @@ import uy.com.antel.mysql.DAOManagerScac;
 import uy.com.antel.pojo.TicketSCAC;
 
 import javax.naming.NamingException;
+import javax.xml.bind.DatatypeConverter;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -14,6 +15,8 @@ import javax.xml.ws.Service;
 import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Calendar;
 import java.util.Date;
@@ -50,17 +53,34 @@ public class ControladorSCAC {
 
         SolicitudTerminal respuestaSolicitudTerminal = null;
 
-        if (sT.getTipoSolicitud() == TipoSolicitud.VENTA) {
+        //obtengo pass user
+        String pass = "Pass1";
+        String user = sT.getUser();
+        try {
+            String myHash = CreaHash(user, pass);
 
-            respuestaSolicitudTerminal = procesarSolicitudVenta(sT);
+            if (myHash.equals(sT.getHash())) {
+                if (sT.getTipoSolicitud() == TipoSolicitud.VENTA) {
 
-        } else if (sT.getTipoSolicitud() == TipoSolicitud.ANULACION) {
+                    respuestaSolicitudTerminal = procesarSolicitudVenta(sT);
 
-            respuestaSolicitudTerminal = procesarSolicitudAnulacion(sT);
+                } else if (sT.getTipoSolicitud() == TipoSolicitud.ANULACION) {
+
+                    respuestaSolicitudTerminal = procesarSolicitudAnulacion(sT);
+                }
+                return respuestaSolicitudTerminal;
+            } else {
+                sT.setTipoRespuesta(TipoRespuesta.ERROR_AUTENTICACION_TERMINAL);
+                return sT;
+            }
+
+
+
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            sT.setTipoRespuesta(TipoRespuesta.ERROR_AUTENTICACION_TERMINAL);
+            return respuestaSolicitudTerminal;
         }
-
-        return respuestaSolicitudTerminal;
-
 
     }
 
@@ -137,6 +157,13 @@ public class ControladorSCAC {
         }
 
 
+    }
+    private static String CreaHash(String u, String p) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update((u+p).getBytes());
+        byte[] digest = md.digest();
+        String myHash = DatatypeConverter.printHexBinary(digest).toUpperCase();
+        return myHash;
     }
 
     private SolicitudTerminal procesarSolicitudAnulacion(SolicitudTerminal sT){
