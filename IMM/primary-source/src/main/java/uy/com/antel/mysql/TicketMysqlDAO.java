@@ -106,9 +106,10 @@ public class TicketMysqlDAO implements ITicketDAO {
             if (orden.executeUpdate() == 0) {
                 throw new DAOException("no se guardo dato " );
             }
-            ;
+
 
         } catch (SQLException ex) {
+            System.out.println(ex);
             throw new DAOException("error sql", ex);
         } finally {
             if (orden != null) {

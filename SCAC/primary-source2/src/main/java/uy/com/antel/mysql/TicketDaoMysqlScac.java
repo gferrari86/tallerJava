@@ -13,10 +13,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 
 public class TicketDaoMysqlScac implements ITicketDAO {
     //Primer recibe pedido
@@ -27,6 +24,7 @@ public class TicketDaoMysqlScac implements ITicketDAO {
     final String GETONE = "SELECT * FROM TTicketScac WHERE  NumeroTicketImm = ?";
     //SELECT Nombre FROM Editorial.TEditoriales where Nombre='Edit1';
     final String GETTHISID = "SELECT EditorialId FROM TEditoriales WHERE Nombre= ?";
+    final String GETBETWEENDATES = "SELECT * FROM TTicketScac WHERE FechaHoraVenta BETWEEN ? AND ?";
 
     DataSource ds;
 
@@ -37,6 +35,7 @@ public class TicketDaoMysqlScac implements ITicketDAO {
         this.ds = (DataSource) ds;
 
     }
+
 
     //Introduzco el metodo para pasar el xmlGregorianCalendar a Date parar guardar en base
 
@@ -240,6 +239,69 @@ public class TicketDaoMysqlScac implements ITicketDAO {
             }
 
             return e;
+        }
+    }
+
+    public List<TicketSCAC> obtenerEntreFechas(Date fechaInicio, Date fechaFinal) throws DAOException, NamingException {
+
+        List<TicketSCAC> listTicketDb = new ArrayList<TicketSCAC>();
+        PreparedStatement orden = null;
+        ResultSet rs = null;
+        TicketSCAC e;
+        Connection ps;
+        try {
+            ps = ds.getConnection();
+            orden = ps.prepareStatement(GETBETWEENDATES);
+            System.out.println("Fechas a imprimir");
+            System.out.println(fechaInicio.getTime());
+            System.out.println(fechaFinal.getTime());
+            java.sql.Date sqlDateInicio = new java.sql.Date(fechaInicio.getTime());
+            java.sql.Date sqlDateFinal = new java.sql.Date(fechaFinal.getTime());
+
+            System.out.println("fecha sql");
+            System.out.println(sqlDateInicio.getTime());
+            System.out.println(sqlDateFinal.getTime());
+
+            System.out.println(new java.sql.Timestamp(fechaInicio.getTime()));
+            System.out.println(new java.sql.Timestamp(fechaFinal.getTime()));
+
+            orden.setTimestamp(1, new java.sql.Timestamp(fechaInicio.getTime()));
+            orden.setTimestamp(2, new java.sql.Timestamp(fechaFinal.getTime()));
+
+            System.out.println(orden.toString());
+            //orden.setDate(1, sqlDateInicio);
+            //orden.setDate(2, sqlDateFinal);
+
+            rs = orden.executeQuery();
+            while (rs.next()) {
+                e = convertirTicket(rs);
+                System.out.println("Paso por el add y agrego " + e);
+                listTicketDb.add(e);
+            /*} else {
+                throw new DAOException("No se ha encontrado registro entre las fechas: "
+                        + fechaInicio + " y " + fechaFinal);
+            */
+            }
+        } catch (SQLException ex) {
+            throw new DAOException("No se conecto", ex);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    throw new DAOException("Error SQL", ex);
+                }
+                if (orden != null) {
+                    try {
+                        orden.close();
+                    } catch (SQLException ex) {
+                        throw new DAOException("Error SQL", ex);
+                    }
+                }
+            }
+
+            System.out.println("Tamano devuelto en TicketDao " + listTicketDb.size());
+            return listTicketDb;
         }
     }
 

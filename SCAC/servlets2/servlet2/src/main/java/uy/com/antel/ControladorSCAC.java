@@ -18,10 +18,7 @@ import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
+import java.util.*;
 
 import static uy.com.antel.mysql.TicketDaoMysqlScac.xmlGregorianCalendarToDate;
 
@@ -251,6 +248,32 @@ public class ControladorSCAC {
 
 
 
+    }
+
+    public List<TicketSCAC> consultaFecha(Date fechaInicio, Date fechaFinal){
+        try {
+            System.out.println("Consulta por fecha inicio " + fechaInicio + " fecha final " + fechaFinal);
+
+            DAOManagerScac obtengo = new DAOManagerScac();
+            List<TicketSCAC> ticketList = new ArrayList<TicketSCAC>();
+            ticketList = obtengo.getTicketMysqlDAO().obtenerEntreFechas(fechaInicio, fechaFinal);
+
+            /*
+            System.out.println("Imprimo tickets");
+            System.out.println(ticketList.size());
+            for (TicketSCAC ticket: ticketList){
+                System.out.println(ticket);
+            }
+            */
+            return ticketList;
+
+        } catch (NamingException e) {
+            e.printStackTrace();
+        } catch (DAOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     private SolicitudIMM enviarSolicitudImmWS (SolicitudIMM sImm){

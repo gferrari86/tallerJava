@@ -7,43 +7,99 @@
 <h:head>
     <meta http-equiv="Context-Type" content="text/html ; charset-UTF-8"/>
     <title>Consulta por día</title>
+    <h2>Ingrese el dia que quiere consultar</h2>
 </h:head>
 
 <h:body>
     <h:form>
         <h:inputText id = "dateInput" value = "#{consultaDiaBean.date}"
                      label = "Date" >
-            <f:convertDateTime pattern = "dd-mm-yyyy" />
+            <f:convertDateTime pattern = "dd-MM-yyyy" />
         </h:inputText>
         <h:commandButton type="submit" action="#{consultaDiaBean.consultaFecha}" value="Ingresar"/>
+        <p>Formato de ingreso dd-mm-aaaa</p>
 
     </h:form>
     <br/>
     <h:message for = "dateInput" style = "color:red" />
 
-    <h:outputText value = "Listado por fecha" >
-        <f:convertDateTime pattern = "dd-mm-yyyy" />
-    </h:outputText>
+
 
     <h:dataTable value="#{consultaDiaBean.ticketsDia}" var="ticket">
+
         <h:column>
             <f:facet name="header">Numero</f:facet>
             #{ticket.numeroTicketSCAC}
         </h:column>
 
         <h:column>
-            <f:facet name="header">Fecha</f:facet>
-            #{ticket.fechaHoraVenta}
+            <f:facet name="header">Tipo</f:facet>
+            #{ticket.tipoSolicitud}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Matricula</f:facet>
+            #{ticket.matriculaVehiculo}
+        </h:column>
+
+
+        <h:column>
+            <f:facet name="header">Tipo</f:facet>
+            #{ticket.tipoSolicitud}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Minutos</f:facet>
+            #{ticket.cantidadMinutos}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Terminal</f:facet>
+            #{ticket.idTerminalAgencia}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Estado</f:facet>
+            #{ticket.estadoTicket}
         </h:column>
 
         <h:column>
             <f:facet name="header">Monto</f:facet>
-            #{ticket.monto}
+            #{ticket.importeTotal}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Anulacion</f:facet>
+            #{ticket.codigoAnulacion}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Usuario Venta</f:facet>
+            #{ticket.userIdVenta}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Usuario Anulación</f:facet>
+            #{ticket.userIdAnulacion}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Fecha de Venta</f:facet>
+            <h:outputText value= "#{ticket.fechaHoraVenta.toGregorianCalendar().time}">
+                <f:convertDateTime pattern="dd/MM/.yy hh:mm" />
+            </h:outputText>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Fecha de Estacionamiento</f:facet>
+            <h:outputText value= "#{ticket.fechaInicioEstacionamiento.toGregorianCalendar().time}">
+                <f:convertDateTime pattern="dd/MM/yy hh:mm" />
+            </h:outputText>
         </h:column>
 
 
-    </h:dataTable>
 
+    </h:dataTable>
 
 </h:body>
 </html>
