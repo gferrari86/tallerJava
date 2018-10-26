@@ -51,6 +51,13 @@ public class ControladorVistaIMM {
              }
         }
 
-
+        public List<String> CargoListaMeses(){
+        ArrayList<String> listameses=new ArrayList<String>();
+        listameses.add("Enero");
+        listameses.add("Febrero");
+        listameses.add("Marzo");
+        listameses.add("Abril");
+        return listameses;
+        }
 
         }

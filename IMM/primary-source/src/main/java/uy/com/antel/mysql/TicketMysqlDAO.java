@@ -29,6 +29,7 @@ public class TicketMysqlDAO implements ITicketDAO {
     //SELECT Nombre FROM Editorial.TEditoriales where Nombre='Edit1';
     final String GETTHISID = "SELECT EditorialId FROM TEditoriales WHERE Nombre= ?";
     final String GETVENDIDOBETWEENDATES="SELECT * from `DBIMM`.`TTicketImm`  where `EstadoTicket` = 'VENDIDO' and (`FechaHoraVenta` between ? and ?)";
+    final String GETONEDAY="select * from `DBIMM`.`TTicketImm`  where `EstadoTicket` = 'VENDIDO' and `FechaHoraVenta` Like ?";
 
     DataSource ds;
 
@@ -220,9 +221,15 @@ public class TicketMysqlDAO implements ITicketDAO {
         float total=0;
         try{
             ps = ds.getConnection();
-            orden = ps.prepareStatement(GETVENDIDOBETWEENDATES);
-            orden.setDate(1, SQLfecha1);
-            orden.setDate(2,SQLfecha2);
+            if (fecha1.compareTo(fecha2)!=0) {
+                orden = ps.prepareStatement(GETVENDIDOBETWEENDATES);
+                orden.setDate(1, SQLfecha1);
+                orden.setDate(2, SQLfecha2);
+            }
+            else{
+                orden=ps.prepareStatement(GETONEDAY);
+                orden.setString(1, String.valueOf(SQLfecha1)+"%");
+            }
             rs = orden.executeQuery();
 
             while (rs.next()) {

@@ -7,7 +7,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.naming.NamingException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @ManagedBean(name="reporteBean")
 @SessionScoped
@@ -16,7 +18,12 @@ public class ReporteBean {
 
     private Date fechaini;
     private Date fechafin;
+    private ArrayList<String> meses=new ArrayList<String>();
 
+
+    public List<String> getMeses(){
+        return meses;
+    }
 
     public Date getFechaini() {
         return fechaini;
@@ -58,6 +65,12 @@ public class ReporteBean {
     fechafin=null;
     fechaini=null;
     return "0";
+    }
+
+    public String CalculaxMeses(){
+
+        return null;
+
     }
 
 }
